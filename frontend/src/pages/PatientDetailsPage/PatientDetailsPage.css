@@ -1,0 +1,149 @@
+.patient__list__details__container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 40vh 1fr;
+    grid-gap: 0px 10px;
+    height: 92vh;
+    padding: 10px;
+}
+
+.patient__list__details__left__wrapper {
+    height: 90%;
+    background-color: rgb(243, 243, 243);
+}
+
+.patient__list__details__right__wrapper {
+    height: 150%;
+    background-color: rgb(243, 243, 243);
+}
+
+
+
+.patient__list__personal__details__wrapper {
+    border: 1px solid black;
+    background-color: rgb(255, 255, 255);
+    height: 12rem;
+    margin-bottom: 10px;
+}   
+
+
+.patient__list__vital__modifiers__wrapper {
+    border: 1px solid black;
+    background-color: rgb(255, 255, 255);
+    height: 12rem;
+    margin-bottom: 10px;
+}
+
+.patient__list__usual__habits__wrapper {
+    border: 1px solid black;
+    background-color: rgb(255, 255, 255);
+    height: 15rem;
+    margin-bottom: 10px;
+}
+
+.patient__list__chronic__diseases__wrapper {
+    display: grid;
+    grid-template-columns: auto auto ;
+    grid-template-rows: auto auto;
+    border: 1px solid black;
+    border-top: 1px solid white;
+    background-color: rgb(255, 255, 255);
+    height: 30rem;
+}
+
+
+.patient_personal_details_input {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto;
+}
+
+
+.patient_vital_modifiers_input {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto auto;
+}
+
+.patient_usual_habits_input {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
+}
+
+.patient_chronic_diseases_input {
+    position: relative;
+}
+
+
+.patient__list__header {
+    text-align: right;
+    background-color: #E8E8E8;
+    height: 50px;
+    font-size: 22px;
+    color: red;
+    font-weight: 700;
+    border-bottom: 1px solid black;
+    padding: 5px 20px;
+}
+
+.patient__list__header__chronic {
+    text-align: right;
+    background-color: #E8E8E8;
+    height: 50px;
+    font-size: 20px;
+    color: red;
+    font-weight: 700;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    border-left: 5px solid rgb(0, 0, 0);
+    border-right: 5px solid rgb(0, 0, 0);
+    padding: 8px 10px;
+    text-align: center;
+}
+
+
+
+
+
+.input__section__wrapper {
+
+}
+
+.input__section {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.input__section input {
+    padding: 5px 15px;
+    text-align: right;
+    font-size: 15px;
+    width: 50%;
+    height: 30px;
+    border: 2px solid black;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    margin: 0 auto;
+}
+
+.input__section input:focus {
+    outline: none;
+}
+
+.input__section button {
+    padding: 8px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 50%;
+    margin-left: 3px;
+    border: 2px solid black;
+    outline: none;
+    transition: 0.2s;
+}
+
+.input__section button:hover {
+    background-color: #ffa1a1;
+    color: white;
+}
+

@@ -1,0 +1,139 @@
+.patientlist_container {
+    margin-top: 4rem;
+    padding: 12px 50px;
+}
+
+/* .patientlist-header {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 0px 250px;
+    justify-content: flex-end;
+    margin-right: 100px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+hr {
+    height: 3px;
+    background-color: black;
+}
+
+h2 {
+    position: relative;
+    cursor: pointer;
+}
+
+h2:nth-child(1)::after  {
+    content: "";
+    background: rgb(255, 255, 255);
+    border-radius: 50%;
+    border: #FF0000 2px solid;
+    position: absolute;
+    bottom: 0%;
+    top: 7px;
+    padding: 12px;
+    transform: translateX(10px);
+}
+
+h2:nth-child(2)::after  {
+    content: "";
+    background: rgb(255, 255, 255);
+    border-radius: 50%;
+    border: #FF0000 2px solid;
+    position: absolute;
+    bottom: 0%;
+    top: 7px;
+    padding: 12px;
+    transform: translateX(10px);
+}
+
+h2:nth-child(3)::after  {
+    content: "";
+    background: rgb(255, 255, 255);
+    border-radius: 50%;
+    border: #FF0000 2px solid;
+    position: absolute;
+    bottom: 0%;
+    top: 7px;
+    padding: 12px;
+    transform: translateX(10px);
+}
+
+h2:hover {
+    color: white;
+}
+
+.patientlist_wrapper {
+
+}
+
+.patient_details_list {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 0px 220px;
+    justify-content: flex-end;
+    margin-right: 80px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+    position: relative;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.patient_details_list_name{
+
+}
+
+.patient_details_list_date{
+
+}
+
+.patient_details_list_phone{
+
+} */
+
+#patients {
+    border-collapse: collapse;
+    width: 100%;
+    font-weight: 600;
+}
+
+#patients td, #patients th {
+    padding-top: 50px;
+    text-align: center;
+}
+
+#patients td {
+    font-size: 25px;
+    border-bottom: 0.1px solid black;
+    padding-bottom: 15px;
+}
+
+#patients th {
+    position: relative;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: rgb(0, 0, 0);
+    font-size: 28px;
+    border-bottom: 2px solid #615C9C;
+}
+
+#patients th::after  {
+    content: "";
+    background: rgb(255, 255, 255);
+    border-radius: 50%;
+    border: #FF0000 2px solid;
+    position: absolute;
+    bottom: 0%;
+    top: 17px;
+    height: 2px;
+    width: 2px;
+    padding: 10px;
+    transform: translateX(10px);
+}
+
+#patients th:nth-child(1)::after {
+    background: transparent;
+    border-radius: 50%;
+    border: transparent 2px solid;
+}
