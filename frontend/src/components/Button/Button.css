@@ -10,6 +10,7 @@
     display: inline-block;
     justify-content: center;
     text-align: center;
+    margin-top: 20px;
   }
   
   .button:focus {
@@ -28,7 +29,7 @@
   .button:active:disabled {
     background: #ccc;
     color: #979797;
-    border-color: #ccc;
+    border-color: rgb(255, 255, 255);
     cursor: not-allowed;
   }
   
@@ -37,7 +38,9 @@
   }
   
   .button--big {
-    font-size: 1.2rem;
+    font-size: 1.7rem;
+    border: 5px solid #615C9C;
+    font-weight: 700;
   }
 
   .button--circle {

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
 import PatientDetailsPage from './pages/PatientDetailsPage/PatientDetailsPage'
 import HomePage from './pages/HomePage/HomePage'
 
@@ -14,7 +14,7 @@ function App () {
           <BrowserRouter>
             <Switch> 
                <Route exact path="/" component={HomePage}></Route> 
-               <Route exact path="/:patientId" component={PatientDetailsPage} />  
+               <Route exact path="/:id" component={PatientDetailsPage} />  
           {/* <Redirect to="/" /> */}
           </Switch>
           </BrowserRouter> 

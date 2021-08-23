@@ -1,3 +1,8 @@
+:root {
+  --theme-color: blue;
+  
+}
+
 *, html {
     margin: 0;
     padding: 0;
@@ -13,7 +18,3 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
   
-.app_container {
-  /* display: grid;
-  grid-template-columns: 40vh 1fr; */
-}

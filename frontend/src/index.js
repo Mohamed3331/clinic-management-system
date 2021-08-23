@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import PatientContext from './context/PatientContext'
+import RegisteredPatientContext from './context/RegisteredPatientContext'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <PatientContext>
-      <App />
-    </PatientContext>
-  </React.StrictMode>,
+    <StrictMode>
+      <PatientContext>
+        <RegisteredPatientContext>
+          <App />
+        </RegisteredPatientContext>
+      </PatientContext>
+    </StrictMode>,
   document.getElementById('root')
 );
 

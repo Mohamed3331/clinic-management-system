@@ -12,7 +12,7 @@
   .form-control label {
     font-weight: bold;
     margin-bottom: 0.2rem;
-    transform: translateY(32px);
+    /* transform: translateY(32px); */
   }
   
   .form-control input,
@@ -23,43 +23,48 @@
     background: #f8f8f8;
     padding: 0.5rem;
     text-align: right;
+    margin-bottom: 30px;
   }
   
-.form-control input[type=checkbox] {
-    transform: translateX(220px) translateY(12px);
-    height: 20px;
+
+.text-area-style label {
+  font-size: 20px;
+}
+
+.text-area-style textarea {
+  font-size: 15px;
+  width: 90%;
+  margin: 0 auto;
+  height: 10rem;
 }
 
 .formControl-category {
-  width: 95%;
+  width: 100%;
   text-align: right;
   margin: 0;
-  padding: 0;
+  padding: 20px;
+  justify-content: center;
 }
 
 .formControl-category select {
   position: relative;
   width: 30%;
-  height: 30px;
   font-size: 22px;
-  margin: 0 auto;
-  display: block;
+  
   z-index: 100;
 }
 
 .formControl-category label {
-  transform: translateY(25px);
   z-index: 0;
   font-size: 18px;
 }
 
 .formControl-category  input {
-  width: 40%;
-  margin: 0 auto;
-  padding: 5px 0px;
+  padding: 5px;
+  width: 100%;
 }
 
 .formControl-category input[type=checkbox] {
-  transform: translateX(70px) translateY(0px);
+  transform: translateY(-25px);
   height: 20px;
 }

@@ -1,63 +1,87 @@
-import React, { Component } from "react";
-import { FaCheckCircle } from 'react-icons/fa';
+import React, { useContext, useEffect } from "react";
+import Patient from "../Patient/Patient";
+import styled from "styled-components";
+import axios from 'axios';
+import { css } from "@emotion/react";
+import PulseLoader from "react-spinners/PulseLoader";
+import { MyContext } from "../../context/PatientContext";
+import {MyRegisteredPatientsContext} from '../../context/RegisteredPatientContext'
 import "./PatientsList.css";
-import Button from "../Button/Button";
 
-export default class PatientsList extends Component {
-  state = {
-    added: false
+const override = css`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+`;
+
+const EmptyHeaderStyle = styled.h2`
+  font-size: 50px;
+  color: black;
+  position: absolute;
+  font-weight: bold;
+  top: 50%;
+  left: 40%;
+`;
+
+export default function PatientsList() {
+  const { patientList, loadingList, getData, searchPatientResult} = useContext(MyContext);
+  const {getRegisteredPatients} = useContext(MyRegisteredPatientsContext)
+
+  const registerPatient = async (id, name) => {
+    try {
+        await axios({
+            method: 'post',
+            url: `http://localhost:5000/register/patient`,
+            data: {
+              id,
+              name,
+              register: true
+            }
+        });
+        getRegisteredPatients()
+        getData()
+    } catch (e) {
+        console.log(e);
+    }
+  };
+
+  if (patientList.length === 0) {
+    return <EmptyHeaderStyle>No Patients to Display</EmptyHeaderStyle>;
   }
 
-  render() {
-    return (
-      <>
+  return (
+    <>
+      {loadingList ? (
+        <PulseLoader loading={loadingList} css={override} size={30} margin={10} />
+      ) : (
         <section className="patientlist_container">
           <table id="patients">
-           <tbody>
-           <tr>
-              <th></th>
-              <th>رقم الهاتف</th>
-              <th>تاريخ الانشاء</th>
-              <th>اسم المريض</th>
-            </tr>
-            <tr>
-              <td> {this.state.added ? <FaCheckCircle size={35} color="green"/> : <Button color="#615C9C" size="circle">حجز المريض</Button> } </td>
-              <td>01281115712</td>
-              <td>Apr 26, 2017</td>
-              <td>على محمد نجيب</td>
-            </tr>
-           </tbody>
+            <tbody>
+              <tr>
+                <th></th>
+                <th>رقم الهاتف</th>
+                <th>تاريخ الانشاء</th>
+                <th>اسم المريض</th>
+              </tr>
+              {
+                searchPatientResult.length > 0 ? 
+                (
+                  searchPatientResult.map((patient, index) => (
+                    <Patient key={index} registerPatient={registerPatient} {...patient} />
+                  )) 
+                )
+                : 
+                (
+                  patientList.map((patient, index) => (
+                    <Patient key={index} registerPatient={registerPatient} {...patient} />
+                  ))
+                )
+              }
+            </tbody>
           </table>
         </section>
-      </>
-    );
-  }
+      )}
+    </>
+  );
 }
-
-
-
-
-
-          {/* <div className="patientlist-header">
-                            <h2>رقم الهاتف</h2>
-                            <h2>تاريخ الانشاء</h2>
-                            <h2>اسم المريض</h2>
-                        </div>
-                        <hr/>
-                        <div className="patientlist_wrapper">
-                            <div className="patient_details_list">
-                                <Button color="#615C9C" size="circle">
-                                    حجز المريض
-                                </Button>
-                                <div className="patient_details_list_phone">
-                                    01281115712
-                                </div>
-                                <div className="patient_details_list_date">
-                                    Apr 26, 2017
-                                </div>
-                                <div className="patient_details_list_name">
-                                    على محمد نجيب
-                                </div>
-                            <hr className="headline"/>
-                            </div>
-                        </div> */}

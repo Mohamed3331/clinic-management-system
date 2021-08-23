@@ -1,0 +1,51 @@
+.form-styling {
+  position: relative;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: right;
+    margin: 0 auto;
+}
+
+.form-styling input {
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: right;
+  font-size: 17px;
+}
+
+.form-styling label {
+  margin: 10px;
+  font-size: 15px;
+}
+
+.form-styling input:focus, .form-styling select:focus{
+  outline: none;
+}
+
+.form-styling select {
+  padding: 10px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-self: flex-end;
+  margin-bottom: 10px;
+}
+
+.form-styling input[type=radio] {
+  display: block;
+  position: relative;
+  border: 5px solid #000000;
+  border-radius: 100%;
+  height: 25px;
+  width: 25px;
+	z-index: 5;
+	transition: border .25s linear;
+	-webkit-transition: border .25s linear;
+}
+
+.form-control--invalid {
+  border: 3px solid rgb(255, 0, 0) !important;
+}

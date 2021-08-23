@@ -4,10 +4,8 @@ import Button from '../../components/Button/Button'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import SideBar from '../../components/SideBar/SideBar'
 import PatientList from '../../components/PatientsList/PatientsList'
-import Modal from '../../components/Modal/Modal'
-import InputReducer from '../../components/InputHandler/InputHandler'
 import { BsPlusCircle } from 'react-icons/bs';
-import {MyContext} from '../../context/PatientContext'
+import AddPatient from '../../components/AddPatient/AddPatient'
 import './HomePage.css'
 
 
@@ -16,15 +14,9 @@ export default class HomePage extends Component {
         showForm: false
     }
 
-    static contextType = MyContext
+    closeMapHandler = () => this.setState({showForm: false});
 
-    closeMapHandler = () => {
-        this.setState({showForm: false})
-    }
-
-    openMapHandler = () => {
-        this.setState({showForm: true})
-    }
+    openMapHandler = () => this.setState({showForm: true});
 
     render() {
         return (
@@ -40,50 +32,8 @@ export default class HomePage extends Component {
                     <div className="button-wrapper">
                         <Button onClick={this.openMapHandler} type="submit" color="#CDFFE7" size="circle" >اضافة <BsPlusCircle/> </Button>
                     </div>
-                    <Modal onSubmit={this.context.handleSubmit} show={this.state.showForm} size="3rem 2rem" onCancel={this.closeMapHandler} >
-                            <InputReducer
-                                id="title"
-                                label="اسم المريض"
-                                name="patientDetails"
-                                type="text"
-                                element="input"
-                                onInput={this.context.inputHandler}
-                                />
-                            <InputReducer
-                                id="age"
-                                label="السن"
-                                name="patientDetails"
-                                type="text"
-                                element="input"
-                                onInput={this.context.inputHandler}
-                                />
-                            <InputReducer
-                                id="job"
-                                label="المهنة"
-                                name="patientDetails"
-                                type="text"
-                                element="input"
-                                onInput={this.context.inputHandler}
-                                />
-                            <InputReducer
-                                id="birthDate"
-                                label="تاريخ الميلاد"
-                                name="patientDetails"
-                                type="text"
-                                element="input"
-                                onInput={this.context.inputHandler}
-                            />
-                            <InputReducer
-                                id="insurance"
-                                label="التامين"
-                                name="patientDetails"
-                                type="checkbox"
-                                element="input"
-                                onInput={this.context.inputHandler}
-                            />
-                            <Button type="submit" color="#615C9C" size="big" >اضافة</Button>
-                    </Modal>
-             
+                    
+                    <AddPatient openMapHandler={this.openMapHandler} closeMapHandler={this.closeMapHandler} showForm={this.state.showForm}/>
                 </section>
                 </div>
             </>

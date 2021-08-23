@@ -1,0 +1,26 @@
+.registered_patient {
+    display: flex;
+    padding: 15px 20px;
+    justify-content: space-between;
+    align-self: center;
+    cursor: pointer;
+}
+
+.registered_patient_number {
+    color: #3EEF00;
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.registered_patient_name {
+    color: white;
+    font-size: 25px;
+}
+
+.registered_patient_name::after {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    padding: 5px;
+}

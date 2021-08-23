@@ -9,7 +9,16 @@
 
 .patient__list__details__left__wrapper {
     height: 90%;
-    background-color: rgb(243, 243, 243);
+    background-color: #f8f8f8;
+    padding-top: 15rem;
+}
+
+.left_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 70%;
+    
 }
 
 .patient__list__details__right__wrapper {
@@ -18,11 +27,10 @@
 }
 
 
-
 .patient__list__personal__details__wrapper {
     border: 1px solid black;
     background-color: rgb(255, 255, 255);
-    height: 12rem;
+    height: auto;
     margin-bottom: 10px;
 }   
 
@@ -30,14 +38,14 @@
 .patient__list__vital__modifiers__wrapper {
     border: 1px solid black;
     background-color: rgb(255, 255, 255);
-    height: 12rem;
+    height: auto;
     margin-bottom: 10px;
 }
 
 .patient__list__usual__habits__wrapper {
     border: 1px solid black;
     background-color: rgb(255, 255, 255);
-    height: 15rem;
+    height: auto;
     margin-bottom: 10px;
 }
 
@@ -54,21 +62,19 @@
 
 .patient_personal_details_input {
     display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: repeat(auto-fill, 1fr)
+  
 }
 
 
 .patient_vital_modifiers_input {
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: repeat(auto-fill, 1fr)
 }
 
 .patient_usual_habits_input {
     display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-rows: auto auto auto;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .patient_chronic_diseases_input {
@@ -102,13 +108,28 @@
     text-align: center;
 }
 
-
-
-
-
-.input__section__wrapper {
-
+.patient__list__header__chronic {
+    text-align: right;
+    background-color: #E8E8E8;
+    height: 50px;
+    font-size: 20px;
+    color: red;
+    font-weight: 700;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    border-left: 5px solid rgb(0, 0, 0);
+    border-right: 5px solid rgb(0, 0, 0);
+    padding: 8px 10px;
+    text-align: center;
 }
+
+
+
+
+
+/* .input__section__wrapper {
+
+} */
 
 .input__section {
     text-align: center;
@@ -145,5 +166,29 @@
 .input__section button:hover {
     background-color: #ffa1a1;
     color: white;
+}
+
+.item_list_wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.item_list_wrapper span {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.item_list_wrapper button {
+    padding: 5px;
+    border-radius: 50%;
+    border: 1px solid rgb(128, 12, 32);
+    cursor: pointer;
+}
+
+.icon-trash-style {
+    
+    color: red;
 }
 

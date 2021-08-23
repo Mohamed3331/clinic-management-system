@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import './InputHandler.css'
 
 const InputReducer = (props) => {
-  const [myValue, setMyValue] = useState('')
+  const [myValue, setMyValue] = useState('fdsfsdfsd')
+  const [myChecked, setChecked] = useState('')
   const {id, onInput} = props
 
   const changeHandler = (e) => {
     setMyValue(e.target.value)
+    if (e.target.type === 'checkbox') {
+      setChecked(e.target.checked)
+    }
     onInput(id, e.target.value, e.target.name, e.target.type, e.target.checked);
   };
   
@@ -20,6 +24,7 @@ const InputReducer = (props) => {
         placeholder={props.placeholder}
         onChange={changeHandler}
         value={myValue}
+        checked={myChecked || props.initialValue === true ? true : '' }
       />
     )
   } else if (props.element === "textarea") {
@@ -30,12 +35,12 @@ const InputReducer = (props) => {
         type={props.type}
         rows={props.rows || 3}
         onChange={changeHandler}
-        value={myValue}
+        value={props.initialValue || myValue}
       />
     )
   } else if (props.element === "select") {
     element = (
-      <select  id={props.id} name={props.name} onChange={changeHandler} value={myValue}>
+      <select  id={props.id} name={props.name} onChange={changeHandler} value={myValue || props.initialValue}>
         {props.children.map((opt, index) => (
           <option key={index} value={opt.props.children}>{opt.props.children}</option>
         ))}
@@ -44,11 +49,10 @@ const InputReducer = (props) => {
   } else {
     return ("Input an element Please")
   }
-
   return (
       <div className={`form-control ${props.classname}`}>
-      <label htmlFor={props.id}>{props.label}</label>
-      {element}
+        <label htmlFor={props.id}>{props.label}</label>
+        {element}
     </div>
   );
 };

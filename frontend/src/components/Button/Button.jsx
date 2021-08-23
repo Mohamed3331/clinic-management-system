@@ -3,13 +3,14 @@ import './Button.css'
 
 export default function Button(props) {
     return (
-        <div 
-            style={{backgroundColor: props.color}} 
+        <button 
+            style={{backgroundColor: props.color, color: props.textColor}} 
             className={`button button--${props.size || 'default'}`}
             type={props.type}
             onClick={props.onClick}
+            onSubmit={props.onSubmit}
         >
             {props.children}
-        </div>
+        </button>
     )
 }

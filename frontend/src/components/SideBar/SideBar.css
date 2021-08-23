@@ -34,43 +34,4 @@
     font-size: 35px;
 }
 
-.registered_patient {
-    display: flex;
-    padding: 10px 20px;
-    justify-content: space-between;
-    align-self: center;
-    cursor: pointer;
-}
 
-.registered_patient_number {
-    color: #3EEF00;
-    font-weight: 700;
-    font-size: 38px;
-}
-
-.registered_patient_name {
-    color: white;
-    font-size: 30px;
-}
-
-.registered_patient_name::after {
-    content: "";
-    display: block;
-    margin: 0 auto;
-    width: 50%;
-    padding: 5px;
-}
-
-
-/* .registered_patient_name:hover .registered_patient_name::after{
-    border-bottom: black;
-}
-
-@keyframes myAnimation {
-    0%{
-        width: 0%;
-    }
-    100% {
-        width: 100%;
-    }
-} */
