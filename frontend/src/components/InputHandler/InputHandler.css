@@ -1,51 +1,28 @@
 .form-control {
     margin: 1rem 0;
     text-align: right;
-  }
+}
   
   .form-control label,
   .form-control input,
   .form-control textarea {
     display: block;
+    margin: 12px;
   }
   
   .form-control label {
     font-weight: bold;
-    margin-bottom: 0.2rem;
-    /* transform: translateY(32px); */
   }
   
   .form-control input,
   .form-control textarea {
-    width: 70%;
     font: inherit;
     border: 1px solid #ccc;
     background: #f8f8f8;
     padding: 0.5rem;
     text-align: right;
-    margin-bottom: 30px;
   }
   
-
-.text-area-style label {
-  font-size: 20px;
-}
-
-.text-area-style textarea {
-  font-size: 15px;
-  width: 90%;
-  margin: 0 auto;
-  height: 10rem;
-}
-
-.formControl-category {
-  width: 100%;
-  text-align: right;
-  margin: 0;
-  padding: 20px;
-  justify-content: center;
-}
-
 .formControl-category select {
   position: relative;
   width: 30%;
@@ -54,17 +31,15 @@
   z-index: 100;
 }
 
-.formControl-category label {
-  z-index: 0;
-  font-size: 18px;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; 
 }
 
-.formControl-category  input {
-  padding: 5px;
-  width: 100%;
-}
-
-.formControl-category input[type=checkbox] {
+.form-control input[type=checkbox] {
+  width: 10%;
   transform: translateY(-25px);
   height: 20px;
+  float: right;
 }

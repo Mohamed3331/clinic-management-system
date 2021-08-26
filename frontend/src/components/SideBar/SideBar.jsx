@@ -1,13 +1,30 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useCallback, useEffect} from 'react'
 import RegisteredPatients from '../RegisteredPatients/RegisteredPatients'
 import axios from 'axios';
 import {MyRegisteredPatientsContext} from '../../context/RegisteredPatientContext'
 import { MyContext } from "../../context/PatientContext";
 import './SideBar.css'
 
+import {MyRegisteredPatients} from '../../Atom/Atom'
+import { useRecoilState } from 'recoil';
+
 export default function SideBar() {
-    const {registeredPatients, getRegisteredPatients} = useContext(MyRegisteredPatientsContext)
+    const {registeredPatients} = useContext(MyRegisteredPatientsContext)
     const {getData} = useContext(MyContext)
+
+    const [regPatients, setRegPatients] = useRecoilState(MyRegisteredPatients)
+
+    const getRegisteredPatients = useCallback( async () => {
+            try {
+              const response = await axios.get("http://localhost:5000/registerd/patients");
+              const body = response.data.patients
+              setRegPatients(body)
+            } catch (e) {
+              console.log(e);
+            }
+            
+        }, [setRegPatients]
+    )
 
     const unRegisterPatient = async (id) => {
         try {
@@ -15,12 +32,19 @@ export default function SideBar() {
                 method: 'delete',
                 url: `http://localhost:5000/unregister/patient/${id}`
             });
-            getRegisteredPatients()
             getData()
+            getRegisteredPatients()
         } catch (e) {
             console.log(e);
         }
     };
+
+    useEffect(() => {
+        getRegisteredPatients()
+    }, [getRegisteredPatients])
+    console.log(regPatients);
+
+
     
     return (
         <section className="sidebar_container">
@@ -31,7 +55,7 @@ export default function SideBar() {
                     </div>
                     <div className="registeredPatients_text">عدد الحلات المسجلة</div>
                 </div>
-                {registeredPatients && registeredPatients.map((patient,index) => (
+                {regPatients && regPatients.map((patient,index) => (
                     <RegisteredPatients key={index} num={index + 1} unRegisterPatient={unRegisterPatient} {...patient} />
                 ))}
             </div>

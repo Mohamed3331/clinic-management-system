@@ -4,12 +4,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import PatientContext from './context/PatientContext'
 import RegisteredPatientContext from './context/RegisteredPatientContext'
+import {RecoilRoot} from "recoil"
 
 ReactDOM.render(
     <StrictMode>
       <PatientContext>
         <RegisteredPatientContext>
-          <App />
+          <RecoilRoot>
+            <App />
+          </RecoilRoot>
         </RegisteredPatientContext>
       </PatientContext>
     </StrictMode>,

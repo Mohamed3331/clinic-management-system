@@ -28,7 +28,6 @@ export default function RegisteredPatientsContext({children}) {
   const getRegisteredPatients = useCallback(async () => {
     try {
       const response = await axios.get("http://localhost:5000/registerd/patients");
-
       if (response.statusText === "OK") {
         dispatch({
           type: "GET_REGISTEREDPATIENTS",

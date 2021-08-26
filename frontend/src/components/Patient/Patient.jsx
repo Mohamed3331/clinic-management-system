@@ -1,10 +1,10 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import { FaCheckCircle } from 'react-icons/fa';
 import { Link} from 'react-router-dom';
 import styled from "styled-components";
-import {MyRegisteredPatientsContext} from '../../context/RegisteredPatientContext'
 import Button from "../Button/Button";
-
+import { useRecoilValue } from 'recoil';
+import {MyRegisteredPatients} from '../../Atom/Atom'
 const StyledLink = styled(Link)`
         color: black;
         font-weight: bold;
@@ -16,17 +16,14 @@ const StyledLink = styled(Link)`
     `;
 
 export default function Patient({phoneNumber, patientName, createdAt, _id, registerPatient}) {
-    const { registeredPatients } = useContext(MyRegisteredPatientsContext);
     const [myPatientStatus, setPatientStatus] = useState(false)
-
+    const ViewPatients = useRecoilValue(MyRegisteredPatients)
     const patientDateCreated = new Date(createdAt)   
 
-    
-
     useEffect(() => {
-        const myPatient = registeredPatients.find(p => p._id === _id)
+        const myPatient = ViewPatients.find(p => p._id === _id)
         setPatientStatus(myPatient ? true : false)
-    }, [registeredPatients])
+    }, [ViewPatients, _id])
 
     return (
         <>

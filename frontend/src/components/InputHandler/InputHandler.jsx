@@ -1,10 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import './InputHandler.css'
 
+const newInputReducer = (state, action) => {
+  switch (action.type) {
+    case "INPUT_CHANGE":
+      if (action.checkbox === "checkbox" || action.checkbox === "radio") {
+        return {...state, inputs: {...state.inputs, [action.category]: {...state.inputs[action.category], [action.inputId]: action.checked} } }
+      } else {
+        return {...state, inputs: {...state.inputs, [action.category]: {...state.inputs[action.category], [action.inputId]: action.value} } }
+      }
+    default:
+      return state;
+  }
+};
+
 const InputReducer = (props) => {
-  const [myValue, setMyValue] = useState('fdsfsdfsd')
+  const [state, dispatch] = useReducer(newInputReducer, {
+    inputs: {
+      patientDetails: {
+          name: 'fd',
+          age: "",
+          job: "",
+          birthDate: "",
+          insurance: "",
+          phoneNumber: ""
+      },
+      vitalmodifiers: {
+          bloodpressure: "",
+          breathing: "",
+          heartrate: "",
+          bloodtype: "",
+          weight: "",
+      },
+      usualhabits: {
+          eatfruits: "",
+          eatvegetables: "",
+          eatmeat: "",
+          smoke: "",
+          alcohol: "",
+          workout: "",
+          duringwork: "",
+          duringmobility: "",
+          duringholidays: "",
+      },
+      patientNotes: {
+          notes: "",
+      },
+    }
+  });
+
+  const [myValue, setMyValue] = useState('')
   const [myChecked, setChecked] = useState('')
   const {id, onInput} = props
+
+  const inputHandler = (id, value, name, type, checked) => {
+    dispatch({
+      type: "INPUT_CHANGE",
+      value: value,
+      inputId: id,
+      category: name,
+      checkbox: type,
+      checked,
+    });
+  };
 
   const changeHandler = (e) => {
     setMyValue(e.target.value)
@@ -24,7 +82,7 @@ const InputReducer = (props) => {
         placeholder={props.placeholder}
         onChange={changeHandler}
         value={myValue}
-        checked={myChecked || props.initialValue === true ? true : '' }
+        // checked={myChecked || props.initialValue === true ? true : '' }
       />
     )
   } else if (props.element === "textarea") {

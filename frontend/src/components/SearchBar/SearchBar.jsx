@@ -6,7 +6,6 @@ import './SearchBar.css'
 
 export default function SearchBar() {
     const [query, setQuery] = useState('')
-    const [patientsResult, setPatientsResult] = useState([])
     const { getPatientsResult} = useContext(MyContext);
     const onChangeHandler = (e) => setQuery(e.target.value)
 
@@ -18,7 +17,6 @@ export default function SearchBar() {
                     method: 'get',
                     url: `http://localhost:5000/search?term=${query}`,
                 });
-                setPatientsResult(response.data)
                 getPatientsResult(response)
             } catch (e) {
                 console.log(e);
@@ -26,7 +24,7 @@ export default function SearchBar() {
         };
         searchResults()
         
-    }, [query])
+    }, [query, getPatientsResult])
 
     return (
         <section className="searchbar_container">

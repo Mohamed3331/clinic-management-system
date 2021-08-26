@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Patient from "../Patient/Patient";
 import styled from "styled-components";
 import axios from 'axios';

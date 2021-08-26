@@ -2,50 +2,13 @@ import React, {useEffect, useReducer, useCallback} from 'react'
 import axios from 'axios';
 
 const initialState = {
-  inputs: {
-    patientDetails: {
-        name: "",
-        age: "",
-        job: "",
-        birthDate: "",
-        insurance: "",
-        phoneNumber: ""
-    },
-    vitalmodifiers: {
-        bloodpressure: "",
-        breathing: "",
-        heartrate: "",
-        bloodtype: "",
-        weight: "",
-    },
-    usualhabits: {
-        eatfruits: "",
-        eatvegetables: "",
-        eatmeat: "",
-        smoke: "",
-        alcohol: "",
-        workout: "",
-        duringwork: "",
-        duringmobility: "",
-        duringholidays: "",
-    },
-    patientNotes: {
-        notes: "",
-    },
-  },
   patientList: [],
   searchPatientResult: [],
   loadingList: true
 };
 
-const newInputReducer = (state, action) => {
+const patientReducer = (state, action) => {
     switch (action.type) {
-      case "INPUT_CHANGE":
-        if (action.checkbox === "checkbox" || action.checkbox === "radio") {
-          return {...state, inputs: {...state.inputs, [action.category]: {...state.inputs[action.category], [action.inputId]: action.checked} } }
-        } else {
-          return {...state, inputs: {...state.inputs, [action.category]: {...state.inputs[action.category], [action.inputId]: action.value} } }
-        }
       case "REDUCEDATA_NOISE":
         return {...state, inputs: {...state.inputs, ...action.restofState}}
 
@@ -67,18 +30,7 @@ export const MyContext = React.createContext()
 
 export default function PatientContext({children}) {
 
-  const [state, dispatch] = useReducer(newInputReducer, initialState);
-
-  const inputHandler = (id, value, name, type, checked) => {
-    dispatch({
-      type: "INPUT_CHANGE",
-      value: value,
-      inputId: id,
-      category: name,
-      checkbox: type,
-      checked,
-    });
-  };
+  const [state, dispatch] = useReducer(patientReducer, initialState);
 
   const getData = useCallback(async () => {
     try {
@@ -93,38 +45,25 @@ export default function PatientContext({children}) {
     }
   }, []);
 
-  const getPatientsResult = (res) => {
+  const getPatientsResult = useCallback ( (res) => {
     dispatch({
       type: "GET_SEARCHRESULT",
       myList: res.data.message ? [] : res.data,
     });
   }
-  
-  
+  , [])
+
   useEffect(() => {
     getData();
   }, [getData]);
 
-  const reduceNoise = (myState = {}) => {
-    delete myState.prevSurgValue;
-    delete myState.chronicValue;
-    delete myState.allergValue;
-    delete myState.drugValue;
-    dispatch({
-      type: "REDUCEDATA_NOISE",
-      restofState: myState,
-    });
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-
-    console.log(state.inputs);
-  };  
+  // const handleFormSubmit = (e) => {
+  //   e.preventDefault();
+  // };  
 
     return (
         <>
-            <MyContext.Provider value={{...state, getData, getPatientsResult, inputHandler, reduceNoise, handleFormSubmit}}>
+            <MyContext.Provider value={{...state,getPatientsResult, getData}}>
                 {children}           
             </MyContext.Provider>
         </>

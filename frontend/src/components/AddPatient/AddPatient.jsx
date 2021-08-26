@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import Modal from "../../components/Modal/Modal";
 // import InputReducer from "../../components/InputHandler/InputHandler";
 import axios from 'axios';
