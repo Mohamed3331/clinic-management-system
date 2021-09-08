@@ -9,9 +9,6 @@ const initialState = {
 
 const patientReducer = (state, action) => {
     switch (action.type) {
-      case "REDUCEDATA_NOISE":
-        return {...state, inputs: {...state.inputs, ...action.restofState}}
-
       case "GET_SEARCHRESULT":
         return {...state, searchPatientResult: [...action.myList]}
 
@@ -57,15 +54,12 @@ export default function PatientContext({children}) {
     getData();
   }, [getData]);
 
-  // const handleFormSubmit = (e) => {
-  //   e.preventDefault();
-  // };  
 
     return (
         <>
-            <MyContext.Provider value={{...state,getPatientsResult, getData}}>
-                {children}           
-            </MyContext.Provider>
+          <MyContext.Provider value={{...state,getPatientsResult, getData}}>
+            {children}           
+          </MyContext.Provider>
         </>
     )
 }

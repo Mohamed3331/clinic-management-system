@@ -42,7 +42,6 @@ export default function SideBar() {
     useEffect(() => {
         getRegisteredPatients()
     }, [getRegisteredPatients])
-    console.log(regPatients);
 
 
     

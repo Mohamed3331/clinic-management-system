@@ -1,0 +1,13 @@
+.form-section-style {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.error-style {
+    font-size: 25px;
+    font-weight: 500;
+    color: red;
+    letter-spacing: 1px;
+    text-align: center;
+}

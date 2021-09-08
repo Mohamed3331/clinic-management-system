@@ -1,14 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import Modal from "../../components/Modal/Modal";
 // import InputReducer from "../../components/InputHandler/InputHandler";
 import axios from 'axios';
 import Button from "../../components/Button/Button";
 import { useForm } from "react-hook-form";
-
+import ErrorValidation from '../FormElements/ErrorValidation'
 import "./AddPatient.css";
 
 const AddPatient = (props) => {
-  // const { handleFormSubmit } = useContext(MyContext);
+  const [error, setError] = useState('')
 
   const { register, handleSubmit, formState } = useForm();
 
@@ -17,12 +17,18 @@ const AddPatient = (props) => {
       const response = await axios({
         method: "post",
         url: `http://localhost:5000/patient`,
-        data,
+        data: {
+          patientDetails: data
+        }
       });
-      console.log(response);
+      if (response.data.message) {
+        setError(response.data.message)
+      }
+      
     } catch (e) {
       console.log(e);
     }
+    props.closeMapHandler()
   };
 
   return (
@@ -39,14 +45,6 @@ const AddPatient = (props) => {
             placeholder={`${formState.errors.patientName ? "برجاء ادخال الاسم ثلاثى" : ""}`}
             type="text"
             {...register("patientName", { required: true })}
-          />
-
-          <label htmlFor="patientAge"> السن </label>
-          <input
-            className={`${formState.errors.age && "form-control--invalid"}`}
-            placeholder={`${formState.errors.age ? "برجاء ادخال السن" : ""}`}
-            type="number"
-            {...register("age", { required: true })}
           />
 
           <label htmlFor="patientJob"> المهنة </label>
@@ -81,7 +79,8 @@ const AddPatient = (props) => {
             <input type="radio" value="No" {...register("insurance", { required: true })}/>
           </label>
 
-          <Button type="submit" size="small"> Submit</Button>
+          <ErrorValidation>{error}</ErrorValidation>
+          <Button type="submit" size="small">Submit</Button>
         </form>
       </Modal>
     </>

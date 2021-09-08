@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
-import { MyContext } from "../../context/PatientContext";
 import logo from "../../Assets/logo.png";
 import Button from "../../components/Button/Button";
 import { RiArrowGoBackFill } from "react-icons/ri";
@@ -14,106 +13,199 @@ import '../../components/InputHandler/InputHandler.css'
 import FormSection from '../../components/FormElements/FormSection'
 import "./PatientDetailsPage.css";
 
-let soso = {
-  name: {
+const personalDetails = {
+  patientName: {
     key: 'patientName',
     labelName: 'اسم المريض',
-    required: true
+    validations: {
+      required: true,
+    }
+  },
+  phone: {
+    key: 'phoneNumber',
+    labelName: 'رقم الهاتف',
+    validations: {
+      required: true,
+    }
+  },
+  birthdate: {
+    key: 'birthDate',
+    labelName: 'تاريخ الميلاد',
+    type: 'date',
+    validations: {
+      required: true,
+    }
   },
   age: {
     key: 'age',
     labelName: 'السن',
-    required: true
-  },
-  birthdate: {
-    key: 'birthDate',
-    labelName: 'الوظيفة',
-    required: true
+    type: 'number',
+    validations: {
+      required: true,
+      valueAsNumber: true,
+    }
   },
   insurance: {
     key: 'insurance',
     labelName: 'التامين',
-    required: true
+    type: 'checkbox',
+    validations: {
+      required: true,
+    }
   },
-  phone: {
-    key: 'phoneNumber',
-    labelName: 'هاتف',
-    required: true
+}
+
+const vitalModifiers = {
+  bloodpressure: {
+    key: 'bloodpressure',
+    labelName: 'ضغط الدم',
+  },
+  breathing: {
+    key: 'breathing',
+    labelName: 'التنفس',
+  },
+  heartrate: {
+    key: 'heartrate',
+    labelName: 'معدل النبض',
   },
   bloodtype: {
     key: 'bloodtype',
     labelName: 'فصيلة الدم',
     select: true,
-    myOptions: ['A+', 'A-', 'B+', 'B-']
+    myOptions: ['none', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
   },
-}//fd
+  weight: {
+    key: 'weight',
+    labelName: 'الوزن',
+  },
+}
+
+const usualHabits = {
+  eatfruits: {
+    key: 'eatfruits',
+    labelName: 'اكل الفواكهة',
+    type: 'checkbox'
+  },
+  eatvegetables: {
+    key: 'eatvegetables',
+    labelName: 'اكل الخضراوات',
+    type: 'checkbox'
+  },
+  eatmeat: {
+    key: 'eatmeat',
+    labelName: 'اكل الحوم',
+    type: 'checkbox'
+  },
+  smoke: {
+    key: 'smoke',
+    labelName: 'التدخين',
+    select: true,
+    myOptions: ['none', 'Never', 'Seldom', 'Regularly', 'Intensive']
+    
+  },
+  alcohol: {
+    key: 'alcohol',
+    labelName: 'الكحول',
+    select: true,
+    myOptions: ['none', 'Never', 'Seldom', 'Regularly', 'Intensive']
+  },
+  workout: {
+    key: 'workout',
+    labelName: 'ممارسة الرياضة',
+    select: true,
+    myOptions: ['none', 'Never', 'Seldom', 'Regularly', 'Intensive']
+  },
+}
+
+const initialState = {
+  diseases: [],
+  drugs: [],
+  prevsurgeries: [],
+  alergies: [],
+  myInput: ''
+}
+
+const myReducer = (state, action) => {
+  switch (action.type) {
+    case "INPUT_CHANGE":
+      return {...state, [action.inputId]: action.value}
+    case "ADD_ITEM":
+      return {...state, [action.myCategory]: [...state[action.myCategory], {ctgy: action.myCategory, value: state.myInput}] }
+    case "REMOVE_ITEM":
+      return {...state, [action.myCategory]: state[action.myCategory].filter(item => item.id !== action.id) }
+    default:
+      return state;
+  }
+};
 
 export default function DetailsSection() {
+  const [MyState, dispatch] = useReducer(myReducer, initialState)
   let history = useHistory();
   let { id } = useParams();
 
-  const [patientData, setPatientData] = useState();
-  // const {inputHandler, handleFormSubmit} = useContext(MyContext)
+    const changeHandler = (e) => {
+      dispatch({
+        type: "INPUT_CHANGE",
+        inputId: e.target.id,
+        value: e.target.value,
+      });
+    };
+
+    const addHandler = (myCategory) => {
+      dispatch({
+        type: "ADD_ITEM",
+        myCategory,
+        myId: uuidv4(),
+      });
+    };
+
+    const removeHandler = (id, ctgy) => {
+      dispatch({
+        type: "REMOVE_ITEM",
+        myCategory: ctgy,
+        id,
+      });
+    };
+
   const [loading, setLoading] = useState(false);
 
-  const { register,handleSubmit, formState: { errors }} = useForm({
-    defaultValues: {
-        patientName: "",
-        age: "",
-        job: "",
-        birthDate: "",
-        insurance: "",
-        phoneNumber: "",
-        vitalmodifiers: {
-            bloodpressure: "",
-            breathing: "",
-            heartrate: "",
-            bloodtype: "",
-            weight: "",
-        },
-        usualhabits: {
-            eatfruits: "",
-            eatvegetables: "",
-            eatmeat: "",
-            smoke: "",
-            alcohol: "",
-            workout: "",
-            duringwork: "",
-            duringmobility: "",
-            duringholidays: "",
-        },
-        patientNotes: {
-            notes: "",
-        },
-    },
-  });
-
-  const onSubmit = (data) => console.log(data);
-  console.log(errors);
-  // {valueAsNumber: true}
-  // {valueAsDate: true}
+  const { register, handleSubmit, reset,formState: { errors }} = useForm();
 
   useEffect(() => {
     setLoading(true);
     const fetchPatientData = async (id) => {
       try {
         const response = await axios.get(`http://localhost:5000/patient/${id}`);
+        
         if (response.statusText === "OK") {
-          setPatientData(response.data.patient);
+          reset(response.data.patient)
         }
-        console.log(response.data.patient);
       } catch (e) {
         console.log(e);
       }
       setLoading(false);
     };
     fetchPatientData(id);
-  }, [id]);
+    
+  }, [id, reset]);
+
+  const onSubmit = async (data) => {
+    try {
+      await axios({
+        method: "patch",
+        url: `http://localhost:5000/patient/${id}`,
+        data: {...data, ...MyState}
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  console.log(errors);
 
   return (
     <>
       <img width="220px" src={logo} alt="fds" />
-      {!loading && patientData ? (
+      {!loading ? (
         <form className={`form-control`} onSubmit={handleSubmit(onSubmit)}>
           <section className="patient__list__details__container">
             <div className="patient__list__details__left__wrapper">
@@ -147,91 +239,73 @@ export default function DetailsSection() {
             </div>
 
             <div className="patient__list__details__right__wrapper">
+              <FormSection
+                title="بيانات المريض"
+                errors={errors}
+                section="patientDetails"
+                register={register}
+                formType={personalDetails}
+              />
 
-            <FormSection errors={errors} section="vitalmodifiers" register={register} soso={soso}/>
+              <FormSection
+                title="المعدلات الحيوية"
+                errors={errors}
+                section="vitalmodifiers"
+                register={register}
+                formType={vitalModifiers}
+              />
 
-            {/* <FormSection register={register} age="age" salary="salary"/> */}
+              <FormSection
+                title="العادات المعتادة"
+                errors={errors}
+                section="usualhabits"
+                register={register}
+                formType={usualHabits}
+              />
 
-              {/* <div className="patient__list__personal__details__wrapper">
-                <div className="patient__list__header">بيانات المريض</div>
-                <div className="patient_personal_details_input">
-                  <label htmlFor="patientName">اسم المريض</label>
-                  <input {...register("patientName", { required: true })} />
+              <div className="patient__list__chronic__diseases__wrapper">
 
-                  <label htmlFor="job">المهنة</label>
-                  <input {...register("job", { required: true })} />
-
-                  <label htmlFor="age">السن</label>
-                  <input type="number" {...register("age", { required: true,valueAsNumber: true }) }/>
-
-                  <label htmlFor="birthDate">تاريخ الميلاد</label>
-                  <input
-                    type="date"
-                    {...register("birthDate", {
-                      required: true,
-                      valueAsDate: true,
-                    })}
-                  />
-
-                  <label htmlFor="phoneNumber">رقم الهاتف</label>
-                  <input
-                    type="number"
-                    {...register("phoneNumber", {
-                      required: true,
-                      valueAsNumber: true,
-                    })}
-                  />
-
-                  <label htmlFor="insurance">التامين</label>
-                  <input
-                    type="checkbox"
-                    {...register("insurance", { required: true })}
-                  />
-                </div>
-              </div> */}
-                    
-              {/* <div className="patient__list__vital__modifiers__wrapper">
-                <div className="patient__list__header">المعدلات الحيوية</div>
-                <div className="patient_vital_modifiers_input">
-                  <label htmlFor="bloodtype">فصيلة الدم</label>
-                  <select {...register("vitalmodifiers.bloodtype")}>
-                    <option>A+</option>
-                    <option>A-</option>
-                    <option>B+</option>
-                    <option>B-</option>
-                    <option>O+</option>
-                    <option>O-</option>
-                    <option>AB+</option>
-                    <option>AB-</option>
-                  </select>
-
-                  <label htmlFor="heartrate">معدل النبض</label>
-                  <input {...register("vitalmodifiers.heartrate")} />
-
-                  <label htmlFor="bloodpressure">ضغط الدم</label>
-                  <input {...register("vitalmodifiers.bloodpressure")} />
-
-                  <label htmlFor="breathing">التنفس</label>
-                  <input {...register("vitalmodifiers.breathing")} />
-
-                  <label htmlFor="weight">الوزن</label>
-                  <input
-                    type="number"
-                    {...register("vitalmodifiers.weight", {
-                      valueAsNumber: true,
-                    })}
-                  />
-                </div>
-              </div>
-
-              <div className="patient__list__usual__habits__wrapper"> 
-                  <div className="patient__list__header">العادات المنتظمة</div>
-                  <div className="patient_usual_habits_input">
-                    <label htmlFor="heartrate">معدل النبض</label>
-                    <input {...register("vitalmodifiers.heartrate")} />
+              <div className="patient_chronic_diseases_input">          
+                <div className="patient__list__header__chronic">الجراحات السابقة</div>
+                  <div className="input__section__wrapper">
+                      <div className="input__section">
+                          <input name="prevsurgeries" placeholder="...اضف هنا" id="myInput" onChange={changeHandler} type="text"/>
+                          <button onClick={() => addHandler('prevsurgeries')}>Add</button>
+                      </div>
+                      <ItemsList items={MyState.prevsurgeries} removeHandler={removeHandler}/>
                   </div>
-              </div> */}
-
+              </div>
+              <div className="patient_chronic_diseases_input">
+                  <div className="patient__list__header__chronic">الامراض المزمنة</div>
+                  <div className="input__section__wrapper">
+                      <div className="input__section">
+                          <input name="diseases" placeholder="...اضف هنا" id="myInput" onChange={changeHandler} type="text"/>
+                          <button onClick={() => addHandler('diseases')}>Add</button>
+                      </div>
+                      <ItemsList items={MyState.diseases} removeHandler={removeHandler}/>
+                  </div>
+              </div>
+              <div className="patient_chronic_diseases_input">
+                  <div className="patient__list__header__chronic">الحساسية (دواء - طعام - مادة)</div>
+                  <div className="input__section__wrapper">
+                      <div className="input__section">
+                          <input name="alergies" placeholder="...اضف هنا" id="myInput" onChange={changeHandler} type="text"/>
+                          <button onClick={() => addHandler('alergies')}>Add</button>
+                      </div>
+                      <ItemsList items={MyState.alergies} removeHandler={removeHandler}/>
+                  </div>
+              </div>
+              <div className="patient_chronic_diseases_input">
+                  <div className="patient__list__header__chronic">الادوية الحالية و التطعيمات</div>
+                  <div className="input__section__wrapper">
+                      <div className="input__section">
+                          <input name="drugs" placeholder="...اضف هنا" id="myInput" onChange={changeHandler} type="text"/>
+                          <button onClick={() => addHandler('drugs')}>Add</button>
+                      </div>
+                      <ItemsList items={MyState.drugs} removeHandler={removeHandler}/>
+                  </div>
+              </div>
+              </div>
             </div>
           </section>
         </form>
@@ -242,17 +316,24 @@ export default function DetailsSection() {
   );
 }
 
-// function ItemsList({items, removeHandler}) {
-//     return (
-//       <div>
-//         {items.map((item, index) => {
-//           return (
-//             <div className="item_list_wrapper" key={index}>
-//               <span>{`#1 ${item.value}`}</span>
-//               <button onClick={() => removeHandler(item.id, item.ctgy)}><FaTrashAlt className="icon-trash-style" size={16}/></button>
-//             </div>
-//           );
-//         })}
-//       </div>
-//     );
-//   }
+function ItemsList({items, removeHandler}) {
+    return (
+      <div>
+        {items.map((item, index) => {
+          return (
+            <div className="item_list_wrapper" key={index}>
+              <span>{`#1 ${item.value}`}</span>
+              <button onClick={() => removeHandler(item.id, item.ctgy)}><FaTrashAlt className="icon-trash-style" size={16}/></button>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+
+
+
+
+
+

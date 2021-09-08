@@ -68,13 +68,13 @@ export default function PatientsList() {
                 searchPatientResult.length > 0 ? 
                 (
                   searchPatientResult.map((patient, index) => (
-                    <Patient key={index} registerPatient={registerPatient} {...patient} />
+                    <Patient key={index} registerPatient={registerPatient} {...patient.patientDetails} {...patient}/>
                   )) 
                 )
                 : 
                 (
                   patientList.map((patient, index) => (
-                    <Patient key={index} registerPatient={registerPatient} {...patient} />
+                    <Patient key={index} registerPatient={registerPatient} {...patient.patientDetails} {...patient}/>
                   ))
                 )
               }

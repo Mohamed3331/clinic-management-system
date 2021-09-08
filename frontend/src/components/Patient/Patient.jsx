@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Button from "../Button/Button";
 import { useRecoilValue } from 'recoil';
 import {MyRegisteredPatients} from '../../Atom/Atom'
+
 const StyledLink = styled(Link)`
         color: black;
         font-weight: bold;
@@ -16,6 +17,7 @@ const StyledLink = styled(Link)`
     `;
 
 export default function Patient({phoneNumber, patientName, createdAt, _id, registerPatient}) {
+
     const [myPatientStatus, setPatientStatus] = useState(false)
     const ViewPatients = useRecoilValue(MyRegisteredPatients)
     const patientDateCreated = new Date(createdAt)   

@@ -9,8 +9,6 @@ const app = express();
 
 const port = 5000 || process.env.PORT;
 
-// const client = new MongoClient(MONGODB_URL, {useNewUrlParser: true,useUnifiedTopology: true});
-
 app.use(express.json());
 app.use(cors());
 app.use(patientRouter);

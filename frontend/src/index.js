@@ -11,7 +11,7 @@ ReactDOM.render(
       <PatientContext>
         <RegisteredPatientContext>
           <RecoilRoot>
-            <App />
+              <App />
           </RecoilRoot>
         </RegisteredPatientContext>
       </PatientContext>

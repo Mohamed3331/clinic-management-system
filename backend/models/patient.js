@@ -1,115 +1,103 @@
 const mongoose = require("mongoose");
 
 const patientSchema = new mongoose.Schema(
-{
-    patientName: {
-      required: [true, 'Patient name is essential'],
-      trim: true,
-      type: String,
-      index: true
-    },
-    age: {
-      trim: true,
-      type: Number,
-    },
-    job: {
-      required: [true, 'job is required'],
-      type: String,
-      trim: true,
-    },
-    phoneNumber: {
-      required: [true, 'phone number required Sir'],
-      type: String,
-      trim: true,
-      unique: true,
-      validate: { 
-        validator: function(val) {
-          return val.toString().length === 11
+  {
+    patientDetails: {
+      patientName: {
+        required: [true, "Patient name is essential"],
+        trim: true,
+        type: String,
+        index: true,
+      },
+      age: {
+        trim: true,
+        type: Number,
+      },
+      job: {
+        required: [true, "job is required"],
+        type: String,
+        trim: true,
+      },
+      phoneNumber: {
+        required: [true, "phone number required Sir"],
+        type: String,
+        trim: true,
+        unique: true,
+        validate: {
+          validator: function (val) {
+            return val.toString().length === 11;
+          },
+          message: `Your phone number must be 11 digits`,
         },
-        message: `Your phone number must be 11 digits`
-      }
-    },
-    birthDate: {
-      required: [true, 'birth date is required'],
-      trim: true,
-      type: Date,
-      min: ['1940-01-1', 'too old'],
-      max: ['2017-01-1', 'too young']
-    },
-    insurance: {
-      required: [true, 'insurance is required'],
-      type: String,
+      },
+      birthDate: {
+        required: [true, "birth date is required"],
+        trim: true,
+        type: String,
+      },
+      insurance: {
+        required: [true, "insurance is required"],
+        type: String,
+      },
     },
     vitalmodifiers: {
       bloodpressure: {
         type: String,
         trim: true,
-        default: ''
+        default: "",
       },
       bloodtype: {
         type: String,
         trim: true,
-        default: ''
+        default: "none",
       },
       breathing: {
         type: String,
         trim: true,
-        default: ''
+        default: "",
       },
       heartrate: {
         type: String,
         trim: true,
-        default: ''
+        default: "",
       },
       weight: {
         type: String,
         trim: true,
-        default: ''
+        default: "",
       },
     },
     usualhabits: {
-      alcohol: {
-        type: String,
-        default: ''
-      },
-      duringholidays: {
-        type: String,
-        default: ''
-      },
-      duringmobility: {
-        type: String,
-        default: ''
-      },
-      duringwork: {
-        type: String,
-        default: ''
-      },
       eatfruits: {
         type: String,
-        default: ''
+        default: "",
       },
       eatmeat: {
         type: String,
-        default: ''
+        default: "",
       },
       eatvegetables: {
         type: String,
-        default: ''
+        default: "",
+      },
+      alcohol: {
+        type: String,
+        default: "none",
       },
       smoke: {
         type: String,
-        default: ''
+        default: "none",
       },
       workout: {
         type: String,
-        default: ''
+        default: "none",
       },
     },
     patientNotes: {
       notes: {
         type: String,
         trim: true,
-        default: ''
+        default: "",
       },
     },
     diseases: [{ type: String }],
@@ -122,20 +110,20 @@ const patientSchema = new mongoose.Schema(
   }
 );
 
-patientSchema.statics.UnRegisterPatients = async function () {
-  let patients = await Patient.updateMany(
-    {},
-    { $set: { registered: "false" } }
-  );
+// patientSchema.statics.UnRegisterPatients = async function () {
+//   let patients = await Patient.updateMany(
+//     {},
+//     { $set: { registered: "false" } }
+//   );
 
-  console.log("i raaaaaaaaaaaaaaaan");
+//   console.log("i raaaaaaaaaaaaaaaan");
 
-  if (!patients) {
-    throw new Error("Unable to unregister");
-  }
+//   if (!patients) {
+//     throw new Error("Unable to unregister");
+//   }
 
-  return patients;
-};
+//   return patients;
+// };
 
 patientSchema.pre('save', async function (next) {
   const patient = this
