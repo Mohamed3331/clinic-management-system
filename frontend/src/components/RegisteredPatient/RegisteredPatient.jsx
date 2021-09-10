@@ -1,9 +1,9 @@
 import React from 'react'
 import { IoMdRemoveCircleOutline } from 'react-icons/io';
 
-import './RegisteredPatients.css'
+import './RegisteredPatient.css'
 
-export default function RegisteredPatients({unRegisterPatient, name, num, _id}) {
+export default function RegisteredPatient({unRegisterPatient, name, num, _id}) {
 
     return (
         <>

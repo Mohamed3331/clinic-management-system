@@ -36,7 +36,6 @@ export default function PatientsList() {
             data: {
               id,
               name,
-              register: true
             }
         });
         getRegisteredPatients()

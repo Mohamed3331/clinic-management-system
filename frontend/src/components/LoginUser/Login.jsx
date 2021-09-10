@@ -4,12 +4,13 @@ import axios from 'axios';
 import Button from "../../components/Button/Button";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from 'recoil';
-import {LoggedUser, Token} from '../../Atom/Atom'
+import {LoggedUser, Token, AdminID} from '../../Atom/Atom'
 
 const Login = (props) => {
   const { register, handleSubmit, formState } = useForm();
   const [isLoggedIn, setLoggedIn] = useRecoilState(LoggedUser)
   const [token, setToken] = useRecoilState(Token)
+  const [id, setAdminID] = useRecoilState(AdminID)
 
   const submit = async (data) => {
     try {
@@ -21,12 +22,12 @@ const Login = (props) => {
           password: data.password,
         },
       });
-
       if (response.statusText === "OK") {
         props.login(response.data.admin._id, response.data.token);
         setLoggedIn(true)
         setToken(response.data.token)
-      }
+        // setAdminID(response.data.admin._id)
+      } 
       props.closeMapHandler()
     } catch (error) {
       console.log(error);

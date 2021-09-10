@@ -58,7 +58,7 @@ router.get('/patients', async (req, res) => {
     }
 })
 
-router.post('/patient', async (req, res) => {
+router.post('/create/patient', async (req, res) => {
 
     const { phoneNumber } = req.body.patientDetails;
 
@@ -71,7 +71,7 @@ router.post('/patient', async (req, res) => {
 
     if (existingPatient) {
         return res.send({message: 'العيان مسجل بالفعل'})
-    }
+    } 
 
     const patient = new Patient(req.body)   
 
@@ -79,7 +79,7 @@ router.post('/patient', async (req, res) => {
         await patient.save()
         res.status(201).send({ patient })
     } catch (e) {
-        res.status(400).send(e)
+        res.send(e)
     }
 })
 

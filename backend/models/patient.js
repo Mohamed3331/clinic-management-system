@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
+const RegisteredPatient = require('../models/registeredPatients')
 
 const patientSchema = new mongoose.Schema(
   {
     patientDetails: {
       patientName: {
-        required: [true, "Patient name is essential"],
+        required: true,
         trim: true,
         type: String,
         index: true,
@@ -14,29 +15,29 @@ const patientSchema = new mongoose.Schema(
         type: Number,
       },
       job: {
-        required: [true, "job is required"],
+        required: true,
         type: String,
         trim: true,
       },
       phoneNumber: {
-        required: [true, "phone number required Sir"],
+        required: true,
         type: String,
         trim: true,
         unique: true,
         validate: {
           validator: function (val) {
-            return val.toString().length === 11;
+            return val.toString().length >= 11;
           },
-          message: `Your phone number must be 11 digits`,
+          message: `يجب رقم الهاتف ان يكون فوق 11 رقم`,
         },
       },
       birthDate: {
-        required: [true, "birth date is required"],
+        required: true,
         trim: true,
         type: String,
       },
       insurance: {
-        required: [true, "insurance is required"],
+        required: true,
         type: String,
       },
     },
@@ -127,14 +128,20 @@ const patientSchema = new mongoose.Schema(
 
 patientSchema.pre('save', async function (next) {
   const patient = this
-
-  if (patient.birthDate) {
-    patient.age = await (new Date().getFullYear() - new Date(patient.birthDate).getFullYear())
+  if (patient.patientDetails.birthDate) {
+    patient.patientDetails.age = await (new Date().getFullYear() - new Date(patient.birthDate).getFullYear())
   }
-
   next()
 })
-patientSchema.index({ patientName: 'text'});
+
+patientSchema.pre('remove', async function (next) {
+  const patient = this
+  await RegisteredPatient.deleteOne({ _id: patient._id })
+  next()
+})
+
+
+// patientSchema.index({ patientName: 'text'});
 const Patient = mongoose.model("Patient", patientSchema);
 
 module.exports = Patient;

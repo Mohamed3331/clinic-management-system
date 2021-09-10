@@ -7,17 +7,17 @@ const initialState = {
 };
 
 const RegisteredPatientsReducer = (state, action) => {
-    switch (action.type) {
-      case "GET_REGISTEREDPATIENTS":
-        return {...state, registeredPatients: [...action.myList]}
-      
-      case "LOADING_SPINNER":
-        return {...state, loadingList: false}
-      
-      default:
-        return state;
-    }
-  };
+  switch (action.type) {
+    case "GET_REGISTEREDPATIENTS":
+      return { ...state, registeredPatients: [...action.myList] };
+
+    // case "LOADING_SPINNER":
+    //   return { ...state, loadingList: false };
+
+    default:
+      return state;
+  }
+};
 
 export const MyRegisteredPatientsContext = React.createContext()
 
@@ -34,6 +34,7 @@ export default function RegisteredPatientsContext({children}) {
           myList: response.data.patients,
         });
       }
+      console.log(' i ran');
       // dispatch({ type: "LOADING_SPINNER" });
     } catch (e) {
       console.log(e);

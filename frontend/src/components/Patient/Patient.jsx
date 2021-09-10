@@ -1,31 +1,32 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { FaCheckCircle } from 'react-icons/fa';
 import { Link} from 'react-router-dom';
 import styled from "styled-components";
 import Button from "../Button/Button";
-import { useRecoilValue } from 'recoil';
-import {MyRegisteredPatients} from '../../Atom/Atom'
+import {MyRegisteredPatientsContext} from '../../context/RegisteredPatientContext'
+import {LoggedUser} from '../../Atom/Atom'
+import {useRecoilValue} from 'recoil'
 
 const StyledLink = styled(Link)`
-        color: black;
-        font-weight: bold;
-        text-decoration: none;
-        &:hover {
-            color: #615C9C;
-            border-bottom: 2px solid #615C9C;
-        }
-    `;
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  &:hover {
+    color: #615c9c;
+    border-bottom: 2px solid #615c9c;
+  }
+`;
 
 export default function Patient({phoneNumber, patientName, createdAt, _id, registerPatient}) {
-
+    const {registeredPatients} = useContext(MyRegisteredPatientsContext)
     const [myPatientStatus, setPatientStatus] = useState(false)
-    const ViewPatients = useRecoilValue(MyRegisteredPatients)
+    const isLoggedIn = useRecoilValue(LoggedUser)
     const patientDateCreated = new Date(createdAt)   
 
     useEffect(() => {
-        const myPatient = ViewPatients.find(p => p._id === _id)
+        const myPatient = registeredPatients.find(p => p._id === _id)
         setPatientStatus(myPatient ? true : false)
-    }, [ViewPatients, _id])
+    }, [registeredPatients, _id])
 
     return (
         <>
@@ -43,7 +44,8 @@ export default function Patient({phoneNumber, patientName, createdAt, _id, regis
                 </td>
                 <td>{phoneNumber ? phoneNumber : 'No Phone Number'}</td>
                 <td>{patientDateCreated.toString().slice(4,15)}</td>
-                <td><StyledLink to={`/${_id}`}>{patientName}</StyledLink></td>
+                <td><StyledLink to={`/${isLoggedIn ? _id : ''}`}>{patientName}</StyledLink></td>
+                
             </tr>
         </>
     )

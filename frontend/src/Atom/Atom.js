@@ -15,4 +15,9 @@ export const Token = atom ({
     default: ''
 })
 
+export const AdminID = atom ({
+    key: "AdminID",
+    default: ''
+})
+
   

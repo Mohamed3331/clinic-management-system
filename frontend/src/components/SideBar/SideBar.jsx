@@ -1,30 +1,13 @@
-import React, {useContext, useCallback, useEffect} from 'react'
-import RegisteredPatients from '../RegisteredPatients/RegisteredPatients'
+import React, {useContext, useEffect} from 'react'
 import axios from 'axios';
 import {MyRegisteredPatientsContext} from '../../context/RegisteredPatientContext'
+import RegisteredPatient from '../RegisteredPatient/RegisteredPatient'
 import { MyContext } from "../../context/PatientContext";
 import './SideBar.css'
 
-import {MyRegisteredPatients} from '../../Atom/Atom'
-import { useRecoilState } from 'recoil';
-
 export default function SideBar() {
-    const {registeredPatients} = useContext(MyRegisteredPatientsContext)
+    const {registeredPatients, getRegisteredPatients} = useContext(MyRegisteredPatientsContext)
     const {getData} = useContext(MyContext)
-
-    const [regPatients, setRegPatients] = useRecoilState(MyRegisteredPatients)
-
-    const getRegisteredPatients = useCallback( async () => {
-            try {
-              const response = await axios.get("http://localhost:5000/registerd/patients");
-              const body = response.data.patients
-              setRegPatients(body)
-            } catch (e) {
-              console.log(e);
-            }
-            
-        }, [setRegPatients]
-    )
 
     const unRegisterPatient = async (id) => {
         try {
@@ -54,8 +37,8 @@ export default function SideBar() {
                     </div>
                     <div className="registeredPatients_text">عدد الحلات المسجلة</div>
                 </div>
-                {regPatients && regPatients.map((patient,index) => (
-                    <RegisteredPatients key={index} num={index + 1} unRegisterPatient={unRegisterPatient} {...patient} />
+                {registeredPatients && registeredPatients.map((regPatient,index) => (
+                    <RegisteredPatient key={index} num={index + 1} unRegisterPatient={unRegisterPatient} {...regPatient} />
                 ))}
             </div>
         </section>

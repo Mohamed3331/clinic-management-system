@@ -2,7 +2,6 @@ import React, { useEffect, useState, useReducer } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-
 import logo from "../../Assets/logo.png";
 import Button from "../../components/Button/Button";
 import { RiArrowGoBackFill } from "react-icons/ri";
@@ -11,6 +10,9 @@ import { FaEdit } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import '../../components/InputHandler/InputHandler.css'
 import FormSection from '../../components/FormElements/FormSection'
+import { useRecoilValue, useRecoilState } from 'recoil';
+import {Token, AdminID, LoggedUser} from '../../Atom/Atom'
+
 import "./PatientDetailsPage.css";
 
 const personalDetails = {
@@ -140,6 +142,9 @@ const myReducer = (state, action) => {
 
 export default function DetailsSection() {
   const [MyState, dispatch] = useReducer(myReducer, initialState)
+  const [token, setToken] = useRecoilState(Token)
+  const adminID = useRecoilValue(AdminID)
+  const [isLoggedIn, setLoggedIn] = useRecoilState(LoggedUser)
   let history = useHistory();
   let { id } = useParams();
 
@@ -169,21 +174,33 @@ export default function DetailsSection() {
 
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, reset,formState: { errors }} = useForm();
+  const { register, handleSubmit, reset, formState: { errors }} = useForm();
 
   useEffect(() => {
     setLoading(true);
+    const storedData = JSON.parse(localStorage.getItem('adminData'))
+    
     const fetchPatientData = async (id) => {
       try {
-        const response = await axios.get(`http://localhost:5000/patient/${id}`);
-        
-        if (response.statusText === "OK") {
+        const response = await axios({
+          method: "get",
+          url: `http://localhost:5000/patient/${id}`,
+          headers: {
+            Authorization: 'Bearer ' + storedData.token,
+            adminID: storedData.uid
+          }
+        })
+        if (response.data.message) {
+          localStorage.setItem('adminData',JSON.stringify({uid: '', token: ''} ));
+          setLoggedIn(false)
+        }else {
           reset(response.data.patient)
         }
       } catch (e) {
         console.log(e);
       }
       setLoading(false);
+      
     };
     fetchPatientData(id);
     
@@ -200,7 +217,7 @@ export default function DetailsSection() {
       console.log(e);
     }
   }
-  console.log(errors);
+  // console.log(errors);
 
   return (
     <>
@@ -233,7 +250,7 @@ export default function DetailsSection() {
                   size="small"
                   textColor="white"
                 >
-                  <RiArrowGoBackFill size="22" /> الرجوع{" "}
+                  <RiArrowGoBackFill size="22" /> الرجوع
                 </Button>
               </div>
             </div>

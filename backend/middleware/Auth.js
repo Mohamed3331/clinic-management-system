@@ -2,23 +2,30 @@ const jwt = require('jsonwebtoken')
 const Admin = require('../models/adminUser')
 
 const auth = async (req, res, next) => {
-    
+    let token
+    let admin
     try {
-        const token = req.header('Authorization').replace('Bearer ', '')
+        token = req.header('Authorization').replace('Bearer ', '')
 
-        const decoded = jwt.verify(token, 'thisisasecretjwt')
-        const admin = await Admin.findOne({ _id: decoded._id, 'tokens.token': token })
-        console.log(admin);
+        admin = await Admin.findById(req.header('AdminID'))
+
+        jwt.verify(token, 'thisisasecretjwt')
         
-        if (!admin) {
+        if (!admin || !token) {
             throw new Error()
         }
         
-        req.token = token
-        req.admin = admin
         next()
     } catch (e) {
-        res.status(401).send({ message: 'Please authenticate.' })
+        if (e.message === 'jwt expired') {
+            admin.tokens = admin.tokens.filter((tok) => {
+                return tok.token !== token
+            })
+            await admin.save()
+            res.send({message: e.message})
+        } else {
+            res.send({message: "Please Authenticate"})
+        }
     }
 }
 

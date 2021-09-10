@@ -16,19 +16,24 @@ const AddPatient = (props) => {
     try {
       const response = await axios({
         method: "post",
-        url: `http://localhost:5000/patient`,
+        url: `http://localhost:5000/create/patient`,
         data: {
           patientDetails: data
         }
       });
-      if (response.data.message) {
+      console.log(response);
+
+      if (response.data.errors) {
+        setError(response.data.errors['patientDetails.phoneNumber'].message)
+      } else if (response.data.message ) {
         setError(response.data.message)
+      } else if (response.statusText === "Created") {
+        props.closeMapHandler()
       }
       
     } catch (e) {
       console.log(e);
     }
-    props.closeMapHandler()
   };
 
   return (

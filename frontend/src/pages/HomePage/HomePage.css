@@ -7,6 +7,10 @@
     position: relative;
 }
 
+.homepage_container {
+    overflow: hidden;
+    max-height: 100vh;
+}
 
 .button-wrapper {
     position: absolute;

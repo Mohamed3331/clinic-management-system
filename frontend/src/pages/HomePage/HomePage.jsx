@@ -17,7 +17,6 @@ import './HomePage.css'
 
 
 const HomePage = (props) => {
-    console.log(props);
     const isLoggedIn = useRecoilValue(LoggedUser)
 
     const [showPatientForm, setShowPatientForm] = useState(false)
@@ -35,13 +34,11 @@ const HomePage = (props) => {
             <>  
                 <div className="homepage-grid-wrapper">
                 <SideBar/>
-                <section style={{ backgroundImage: `url(${image1})`, backgroundRepeat: "no-repeat", backgroundSize: "cover",}} className="homepage_container"> 
+                <section style={{ backgroundImage: `url(${image1})`, backgroundRepeat: "no-repeat", backgroundSize: "cover", }} className="homepage_container"> 
                 <div className="header-container">
                     {isLoggedIn ? <h1>You are logged in</h1> : 
                     (
-                    
                         <Button onClick={openLoginForm} color="#615C9C" size="big" type="button">تسجيل الدخول</Button>
-                    
                     )}
                     
                     <SearchBar/>

@@ -1,51 +1,42 @@
-import React, {useEffect, useCallback} from "react";
+import React, {useEffect, useCallback, Suspense} from "react";
 import { BrowserRouter, Route, Switch} from 'react-router-dom';
-import PatientDetailsPage from './pages/PatientDetailsPage/PatientDetailsPage'
-import HomePage from './pages/HomePage/HomePage'
-import { useRecoilState } from 'recoil';
-import {LoggedUser} from './Atom/Atom'
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {LoggedUser, Token} from './Atom/Atom'
 
 import "./App.css";
 
+const HomePage = React.lazy(() => import('./pages/HomePage/HomePage'))
+const PatientDetailsPage = React.lazy(() => import('./pages/PatientDetailsPage/PatientDetailsPage'))
+
 function App () {
   const [isLoggedIn, setLoggedIn] = useRecoilState(LoggedUser)
+  const [tok] = useRecoilValue(Token)
 
   const login = useCallback((uid, token) => {
-    const tokenDate = new Date()
-    tokenDate.setDate(tokenDate.getDate() + 2);
-    localStorage.setItem('adminData',JSON.stringify({uid, token, tokenExp: tokenDate.getDate()} ));
+    localStorage.setItem('adminData',JSON.stringify({uid, token} ));
   }, [])
-
   
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('adminData'))
-    
-    if (storedData && storedData.tokenExp === new Date().getDate()) {
-      JSON.parse(localStorage.removeItem('adminData'))
-      console.log('dfsd');
-    }
-
-    if (storedData && storedData.token) {
-      login(storedData.uid, storedData.token)
-      setLoggedIn(storedData.token)
-    }
-    
-  }, [login, setLoggedIn])
+    setLoggedIn(!!storedData.token)
+  }, [setLoggedIn])
   
     return (
       <>
         <div className="app_container">
-          <BrowserRouter>
-            <Switch> 
-              <Route exact path="/">
-                <HomePage login={login}/>
-              </Route> 
-              <Route exact path="/:id">
-                <PatientDetailsPage/> 
-              </Route>  
-          {/* <Redirect to="/" /> */}
-          </Switch>
-          </BrowserRouter> 
+          <Suspense fallback={<div>Loading Content</div>}>
+            <BrowserRouter>
+              <Switch> 
+                <Route exact path="/">
+                  <HomePage login={login}/>
+                </Route> 
+                <Route exact path="/:id">
+                  <PatientDetailsPage/> 
+                </Route>  
+            {/* <Redirect to="/" /> */}
+            </Switch>
+            </BrowserRouter> 
+          </Suspense>
         </div>
       </>
     );
