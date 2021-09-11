@@ -1,6 +1,6 @@
 import React from "react";
 import './FormStyle.css'
-
+import ErrorValidation from './ErrorValidation'
 const FormSection = ({ register, formType, section, errors, title }) => {
   return (
     <>
@@ -25,8 +25,7 @@ const FormSection = ({ register, formType, section, errors, title }) => {
                       {...register(section + "." + s.key, { ...s.validations })}
                     />
                   )}
-
-                  {errors[s.key] && <span>This field is required</span>}
+                  <ErrorValidation>{errors[s.key] && <span>This field is required</span>}</ErrorValidation>
                 </div>
               );
             })}

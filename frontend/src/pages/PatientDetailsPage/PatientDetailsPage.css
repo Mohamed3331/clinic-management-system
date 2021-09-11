@@ -100,17 +100,16 @@
 .input__section {
     text-align: center;
     margin-top: 10px;
+    display: flex;
+    height: 40px;
 }
 
 .input__section input {
     padding: 5px 15px;
     text-align: right;
     font-size: 15px;
-    width: 50%;
-    height: 30px;
+    width: 90%;
     border: 2px solid black;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
     margin: 0 auto;
 }
 
@@ -122,8 +121,7 @@
     padding: 8px;
     font-size: 20px;
     font-weight: 600;
-    border-radius: 50%;
-    margin-left: 3px;
+    border-radius: 2px;
     border: 2px solid black;
     outline: none;
     transition: 0.2s;
@@ -137,25 +135,27 @@
 .item_list_wrapper {
     display: flex;
     justify-content: space-between;
-    margin-top: 1.5rem;
+    margin: 1.5rem;
 }
 
 .item_list_wrapper span {
-    font-size: 15px;
+    font-size: 25px;
     font-weight: 500;
     letter-spacing: 1px;
 }
 
 .item_list_wrapper button {
     padding: 5px;
-    border-radius: 50%;
-    border: 1px solid rgb(128, 12, 32);
+    border-radius: 20%;
     cursor: pointer;
 }
 
+.item_list_wrapper button:hover {
+    background-color: rgb(179, 179, 179);
+}
+
 .icon-trash-style {
-    
-    color: red;
+    color: rgb(0, 0, 0);
 }
 
 

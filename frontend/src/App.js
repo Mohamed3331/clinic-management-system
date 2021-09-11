@@ -1,16 +1,17 @@
 import React, {useEffect, useCallback, Suspense} from "react";
-import { BrowserRouter, Route, Switch} from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import {LoggedUser, Token} from './Atom/Atom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import {LoggedUser} from './Atom/Atom'
 
 import "./App.css";
 
 const HomePage = React.lazy(() => import('./pages/HomePage/HomePage'))
 const PatientDetailsPage = React.lazy(() => import('./pages/PatientDetailsPage/PatientDetailsPage'))
+const Page404 = React.lazy(() => import('./pages/404Page/Page404'))
 
 function App () {
   const [isLoggedIn, setLoggedIn] = useRecoilState(LoggedUser)
-  const [tok] = useRecoilValue(Token)
+  // const [tok] = useRecoilValue(Token)
 
   const login = useCallback((uid, token) => {
     localStorage.setItem('adminData',JSON.stringify({uid, token} ));
@@ -31,9 +32,11 @@ function App () {
                   <HomePage login={login}/>
                 </Route> 
                 <Route exact path="/:id">
-                  <PatientDetailsPage/> 
+                {isLoggedIn ? <PatientDetailsPage/> : <Redirect to="/" />} 
                 </Route>  
-            {/* <Redirect to="/" /> */}
+                <Route>
+                  <Page404/> 
+                </Route>
             </Switch>
             </BrowserRouter> 
           </Suspense>

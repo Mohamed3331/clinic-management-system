@@ -1,36 +1,8 @@
 const express = require('express')
 const auth = require('../middleware/Auth')
 const Patient = require('../models/patient')
-const Admin = require('../models/adminUser')
 const RegisteredPatient = require('../models/registeredPatients')
 const router = new express.Router()
-
-router.post('/admin/login', async (req, res) => {
-    try {
-        const admin = await Admin.findByCredentials(req.body.email, req.body.password)
-        const token = await admin.generateAuthToken()
-        
-        if (!admin) {
-            res.send({message: "Invalid login"})
-        }
-
-        res.send({ admin, token })
-    } catch (e) {
-        res.status(400).send(e)
-    }
-})
-
-// router.post('/admin/create', async (req, res) => {
-//     const admin = new Admin(req.body)
-
-//     try {
-//         await admin.save()
-//         const token = await admin.generateAuthToken()
-//         res.status(201).send( {admin, token} )
-//     } catch (e) {
-//         res.send(e)
-//     }
-// })
 
 router.get('/patient/:id', auth, async (req, res) => {
     const _id = req.params.id
@@ -87,11 +59,16 @@ router.patch('/patient/:id', async (req, res) => {
     const _id = req.params.id
     let patient
 
+    if (!patient) {
+        res.send({message: 'Patient Not Found'})       
+    }
+
     try {
         patient = await Patient.findByIdAndUpdate(_id, req.body, {new: true});        
+        
         res.status(200).send({ patient })
     } catch (e) {
-        res.status(400).send(e)
+        res.send(e)
     }
 })
 

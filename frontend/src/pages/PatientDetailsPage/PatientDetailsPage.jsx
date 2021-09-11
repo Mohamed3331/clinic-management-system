@@ -119,14 +119,6 @@ const usualHabits = {
   },
 }
 
-const initialState = {
-  diseases: [],
-  drugs: [],
-  prevsurgeries: [],
-  alergies: [],
-  myInput: ''
-}
-
 const myReducer = (state, action) => {
   switch (action.type) {
     case "INPUT_CHANGE":
@@ -141,10 +133,19 @@ const myReducer = (state, action) => {
 };
 
 export default function DetailsSection() {
-  const [MyState, dispatch] = useReducer(myReducer, initialState)
-  const [token, setToken] = useRecoilState(Token)
+  const [myPatient, setMyPatient] = useState([])
+  const [MyState, dispatch] = useReducer(myReducer, {
+    diseases: [],
+    drugs: [],
+    prevsurgeries: [],
+    alergies: [],
+    myInput: ''
+  })
+  console.log(MyState);
+  // const [token, setToken] = useRecoilState(Token)
   const adminID = useRecoilValue(AdminID)
   const [isLoggedIn, setLoggedIn] = useRecoilState(LoggedUser)
+  
   let history = useHistory();
   let { id } = useParams();
 
@@ -160,7 +161,7 @@ export default function DetailsSection() {
       dispatch({
         type: "ADD_ITEM",
         myCategory,
-        myId: uuidv4(),
+        // myId: uuidv4(),
       });
     };
 
@@ -195,6 +196,7 @@ export default function DetailsSection() {
           setLoggedIn(false)
         }else {
           reset(response.data.patient)
+          setMyPatient(response.data.patient)
         }
       } catch (e) {
         console.log(e);
@@ -207,6 +209,7 @@ export default function DetailsSection() {
   }, [id, reset]);
 
   const onSubmit = async (data) => {
+    delete MyState.myInput
     try {
       await axios({
         method: "patch",
@@ -217,25 +220,18 @@ export default function DetailsSection() {
       console.log(e);
     }
   }
-  // console.log(errors);
+  console.log(errors);
 
   return (
     <>
       <img width="220px" src={logo} alt="fds" />
-      {!loading ? (
+      {!loading && (
         <form className={`form-control`} onSubmit={handleSubmit(onSubmit)}>
           <section className="patient__list__details__container">
             <div className="patient__list__details__left__wrapper">
               <div className="left_wrapper">
                 <div className="patient__list__header__chronic">ملاحظات</div>
-                {/* <InputReducer
-                  classname="text-area-style"
-                  id="notes"
-                  name="patientNotes"
-                  type="text"
-                  element="textarea"
-                  onInput={inputHandler}
-                /> */}
+                {/* <input {...register("patientNotes")} /> */}
                 <Button
                   color={"#DCDCDC"}
                   size="big"
@@ -281,66 +277,123 @@ export default function DetailsSection() {
               />
 
               <div className="patient__list__chronic__diseases__wrapper">
+                <div className="patient_chronic_diseases_input">
+                  <div className="patient__list__header__chronic">
+                    الجراحات السابقة
+                  </div>
+                  <div className="input__section__wrapper">
+                    <div className="input__section">
+                      <input
+                        name="prevsurgeries"
+                        placeholder="...اضف هنا"
+                        id="myInput"
+                        onChange={changeHandler}
+                        type="text"
+                      />
+                      <button onClick={() => addHandler("prevsurgeries")}>
+                        Add
+                      </button>
+                    </div>
+                    <ItemsList
+                      newItems={MyState.prevsurgeries}
+                      oldItems={myPatient.prevsurgeries}
+                      removeHandler={removeHandler}
+                    />
+                  </div>
+                </div>
 
-              <div className="patient_chronic_diseases_input">          
-                <div className="patient__list__header__chronic">الجراحات السابقة</div>
-                  <div className="input__section__wrapper">
-                      <div className="input__section">
-                          <input name="prevsurgeries" placeholder="...اضف هنا" id="myInput" onChange={changeHandler} type="text"/>
-                          <button onClick={() => addHandler('prevsurgeries')}>Add</button>
-                      </div>
-                      <ItemsList items={MyState.prevsurgeries} removeHandler={removeHandler}/>
+                <div className="patient_chronic_diseases_input">
+                  <div className="patient__list__header__chronic">
+                    الامراض المزمنة
                   </div>
-              </div>
-              <div className="patient_chronic_diseases_input">
-                  <div className="patient__list__header__chronic">الامراض المزمنة</div>
                   <div className="input__section__wrapper">
-                      <div className="input__section">
-                          <input name="diseases" placeholder="...اضف هنا" id="myInput" onChange={changeHandler} type="text"/>
-                          <button onClick={() => addHandler('diseases')}>Add</button>
-                      </div>
-                      <ItemsList items={MyState.diseases} removeHandler={removeHandler}/>
+                    <div className="input__section">
+                      <input
+                        name="diseases"
+                        placeholder="...اضف هنا"
+                        id="myInput"
+                        onChange={changeHandler}
+                        type="text"
+                      />
+                      <button onClick={() => addHandler("diseases")}>
+                        Add
+                      </button>
+                    </div>
+                    <ItemsList
+                      items={
+                        (MyState.diseases, myPatient && myPatient.diseases)
+                      }
+                      removeHandler={removeHandler}
+                    />
                   </div>
-              </div>
-              <div className="patient_chronic_diseases_input">
-                  <div className="patient__list__header__chronic">الحساسية (دواء - طعام - مادة)</div>
+                </div>
+
+                <div className="patient_chronic_diseases_input">
+                  <div className="patient__list__header__chronic">
+                    الحساسية (دواء - طعام - مادة)
+                  </div>
                   <div className="input__section__wrapper">
-                      <div className="input__section">
-                          <input name="alergies" placeholder="...اضف هنا" id="myInput" onChange={changeHandler} type="text"/>
-                          <button onClick={() => addHandler('alergies')}>Add</button>
-                      </div>
-                      <ItemsList items={MyState.alergies} removeHandler={removeHandler}/>
+                    <div className="input__section">
+                      <input
+                        name="alergies"
+                        placeholder="...اضف هنا"
+                        id="myInput"
+                        onChange={changeHandler}
+                        type="text"
+                      />
+                      <button onClick={() => addHandler("alergies")}>
+                        Add
+                      </button>
+                    </div>
+                    <ItemsList
+                      items={
+                        (MyState.alergies, myPatient && myPatient.alergies)
+                      }
+                      removeHandler={removeHandler}
+                    />
                   </div>
-              </div>
-              <div className="patient_chronic_diseases_input">
-                  <div className="patient__list__header__chronic">الادوية الحالية و التطعيمات</div>
+                </div>
+
+                <div className="patient_chronic_diseases_input">
+                  <div className="patient__list__header__chronic">
+                    الادوية الحالية و التطعيمات
+                  </div>
                   <div className="input__section__wrapper">
-                      <div className="input__section">
-                          <input name="drugs" placeholder="...اضف هنا" id="myInput" onChange={changeHandler} type="text"/>
-                          <button onClick={() => addHandler('drugs')}>Add</button>
-                      </div>
-                      <ItemsList items={MyState.drugs} removeHandler={removeHandler}/>
+                    <div className="input__section">
+                      <input
+                        name="drugs"
+                        placeholder="...اضف هنا"
+                        id="myInput"
+                        onChange={changeHandler}
+                        type="text"
+                      />
+                      <button onClick={() => addHandler("drugs")}>Add</button>
+                    </div>
+                    <ItemsList
+                      items={MyState.drugs}
+                      removeHandler={removeHandler}
+                    />
                   </div>
-              </div>
+                </div>
+                
               </div>
             </div>
           </section>
         </form>
-      ) : (
-        <h1>still loading patient's data</h1>
       )}
     </>
   );
 }
 
-function ItemsList({items, removeHandler}) {
-    return (
+function ItemsList({newItems, oldItems, removeHandler}) {
+  const myList = oldItems && [...newItems, ...oldItems]
+  return (
       <div>
-        {items.map((item, index) => {
+        {myList && myList.map((item, index) => {
           return (
             <div className="item_list_wrapper" key={index}>
-              <span>{`#1 ${item.value}`}</span>
-              <button onClick={() => removeHandler(item.id, item.ctgy)}><FaTrashAlt className="icon-trash-style" size={16}/></button>
+              <span>{`#${index + 1} ${item.value}`}</span>
+              <button onClick={() => removeHandler(item.id, item.ctgy)}><FaTrashAlt className="icon-trash-style" size={18}/></button>
             </div>
           );
         })}
