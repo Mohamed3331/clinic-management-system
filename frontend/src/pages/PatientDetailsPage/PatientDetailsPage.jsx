@@ -95,7 +95,7 @@ export default function DetailsSection() {
       try {
         const response = await axios({
           method: "get",
-          url: `http://localhost:5000/patient/${id}`,
+          url: `${process.env.REACT_APP_BACKEND_URL}/patient/${id}`,
           headers: {
             Authorization: "Bearer " + storedData.token,
             adminID: storedData.uid,

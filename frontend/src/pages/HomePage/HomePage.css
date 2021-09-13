@@ -19,3 +19,8 @@
     color: black;
 }
 
+.fdsfds {
+    display: grid;
+    grid-template-columns: 35vh 1fr;
+    height: 100vh;
+}

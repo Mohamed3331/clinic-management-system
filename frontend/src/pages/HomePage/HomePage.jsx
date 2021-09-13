@@ -32,7 +32,8 @@ const HomePage = (props) => {
 
     const gridStyle = {
         display: 'grid',
-        gridTemplateColumns: `${isTabletOrMobile ? '1fr 1f' : '35vh 1fr'}`
+        gridTemplateColumns: `${isTabletOrMobile ? '1fr 1f' : '35vh 1fr'}`,
+        height: "100vh"
     }
 
         return (

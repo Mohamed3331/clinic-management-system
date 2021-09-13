@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const RegisteredPatient = require('../models/registeredPatients')
+const RegisteredPatient = require("../models/registeredPatients");
 
 const patientSchema = new mongoose.Schema(
   {
@@ -107,28 +107,28 @@ const patientSchema = new mongoose.Schema(
     prevsurgeries: [],
     patientNotes: {
       type: String,
-      trim: true
-    }
+      trim: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-patientSchema.pre('save', async function (next) {
-  const patient = this
+patientSchema.pre("save", async function (next) {
+  const patient = this;
   if (patient.patientDetails.birthDate) {
-    patient.patientDetails.age = await (new Date().getFullYear() - new Date(patient.birthDate).getFullYear())
+    patient.patientDetails.age = await (new Date().getFullYear() -
+      new Date(patient.birthDate).getFullYear());
   }
-  next()
-})
+  next();
+});
 
-patientSchema.pre('remove', async function (next) {
-  const patient = this
-  await RegisteredPatient.deleteOne({ _id: patient._id })
-  next()
-})
-
+patientSchema.pre("remove", async function (next) {
+  const patient = this;
+  await RegisteredPatient.deleteOne({ _id: patient._id });
+  next();
+});
 
 // patientSchema.index({ patientName: 'text'});
 const Patient = mongoose.model("Patient", patientSchema);
