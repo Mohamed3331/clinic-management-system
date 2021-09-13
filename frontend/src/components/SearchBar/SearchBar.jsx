@@ -15,7 +15,7 @@ export default function SearchBar() {
             try {
                 const response = await axios({
                     method: 'get',
-                    url: `http://localhost:5000/search?term=${query}`,
+                    url: `${process.env.REACT_APP_BACKEND_URL}/search?term=${query}`,
                 });
                 getPatientsResult(response)
             } catch (e) {

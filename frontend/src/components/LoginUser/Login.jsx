@@ -9,11 +9,12 @@ import {LoggedUser} from '../../Atom/Atom'
 const Login = (props) => {
   const { register, handleSubmit, formState } = useForm();
   const [isLoggedIn, setLoggedIn] = useRecoilState(LoggedUser)
+  
   const submit = async (data) => {
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:5000/admin/login",
+        url: `${process.env.REACT_APP_BACKEND_URL}/admin/login`,
         data: {
           email: data.email,
           password: data.password,
@@ -23,9 +24,10 @@ const Login = (props) => {
         props.login(response.data.admin._id, response.data.token);
         setLoggedIn(true)
       } 
+      if (isLoggedIn) console.log('logged');
       props.closeMapHandler()
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 

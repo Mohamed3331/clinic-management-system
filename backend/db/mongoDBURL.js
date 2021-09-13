@@ -1,4 +1,4 @@
-const MONGODB_URL = "mongodb+srv://Mohamed:Mo3i2bnm@cluster0.jpvlo.mongodb.net/clinicDatabase?retryWrites=true&w=majority"
+const MONGODB_URL = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.jpvlo.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
 
-
+// 
 module.exports = MONGODB_URL

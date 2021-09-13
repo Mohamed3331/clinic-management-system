@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const registeredPatientsSchema = new mongoose.Schema(
   {
     name: {
@@ -9,14 +8,12 @@ const registeredPatientsSchema = new mongoose.Schema(
     _id: {
       trim: true,
       type: String,
-    }
+    },
+    createdAt: Date
   },
-  {
-    timestamps: true,
-  }
 );
 
-registeredPatientsSchema.index({createdAt: 1},{expireAfterSeconds: 5});
+registeredPatientsSchema.index({ createdAt: 1 }, { expireAfterSeconds: 120 });
 
 const RegisteredPatient = mongoose.model("RegisteredPatient", registeredPatientsSchema);
 

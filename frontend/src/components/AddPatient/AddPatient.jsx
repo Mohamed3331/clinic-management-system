@@ -16,7 +16,7 @@ const AddPatient = (props) => {
     try {
       const response = await axios({
         method: "post",
-        url: `http://localhost:5000/create/patient`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/create/patient`,
         data: {
           patientDetails: data
         }

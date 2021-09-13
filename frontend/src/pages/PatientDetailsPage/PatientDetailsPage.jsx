@@ -49,9 +49,9 @@ export default function DetailsSection() {
     alergies: [],
     myInput: "",
   });
-  console.log(MyState);
-  const [isLoggedin, setLoggedIn] = useRecoilState(LoggedUser);
 
+  const [isLoggedIn, setLoggedIn] = useRecoilState(LoggedUser);
+  
   let history = useHistory();
   let { id } = useParams();
 
@@ -91,7 +91,7 @@ export default function DetailsSection() {
     setLoading(true);
     const storedData = JSON.parse(localStorage.getItem("adminData"));
 
-    const fetchPatientData = async (id) => {
+  const fetchPatientData = async (id) => {
       try {
         const response = await axios({
           method: "get",
@@ -115,16 +115,17 @@ export default function DetailsSection() {
         console.log(e);
       }
       setLoading(false);
-    };
+  };
+  
     fetchPatientData(id);
-  }, [id, reset]);
+  }, [id, reset, setLoggedIn]);
 
   const onSubmit = async (data) => {
     delete MyState.myInput;
     try {
       await axios({
         method: "patch",
-        url: `http://localhost:5000/patient/${id}`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/patient/${id}`,
         data: { ...data, ...MyState },
       });
     } catch (e) {
@@ -141,12 +142,13 @@ export default function DetailsSection() {
             <div className="patient__list__details__left__wrapper">
               <div className="left_wrapper">
                 <div className="patient__list__header__chronic">ملاحظات</div>
-                {/* <input {...register("patientNotes")} /> */}
+                <textarea  {...register("patientNotes")} />
                 <Button
                   color={"#DCDCDC"}
                   size="big"
                   textColor="black"
                   type="submit"
+                  disabled={isLoggedIn}
                 >
                   Save <FaEdit size="25" />
                 </Button>

@@ -59,13 +59,11 @@ router.patch('/patient/:id', async (req, res) => {
     const _id = req.params.id
     let patient
 
-    if (!patient) {
-        res.send({message: 'Patient Not Found'})       
-    }
-
     try {
         patient = await Patient.findByIdAndUpdate(_id, req.body, {new: true});        
-        
+        if (!patient) {
+            res.send({message: 'Patient Not Found'})       
+        }
         res.status(200).send({ patient })
     } catch (e) {
         res.send(e)
@@ -135,7 +133,3 @@ router.get("/search", async (req, res) => {
 });
 
 module.exports = router
-
-// router.delete('/patients', async (req, res) => {
-//     res.send("delete patient route")
-// })

@@ -105,6 +105,10 @@ const patientSchema = new mongoose.Schema(
     alergies: [],
     drugs: [],
     prevsurgeries: [],
+    patientNotes: {
+      type: String,
+      trim: true
+    }
   },
   {
     timestamps: true,

@@ -6,6 +6,7 @@ import { CSSTransition } from "react-transition-group";
 import "./Modal.css";
 
 const ModalOverlay = (props) => {
+  
   const content = (
     <div className={`modal ${props.className}`} style={props.style}>
       <div style={{ padding: `${[props.size]}` }} className={`modal__content ${props.contentClass}`}>
@@ -16,22 +17,23 @@ const ModalOverlay = (props) => {
   return ReactDOM.createPortal(content, document.getElementById("modal-hook"));
 };
 
-const Modal = (props) => {
-
+const Modal = React.forwardRef((props, ref) => {
+  // const ref = React.createRef();
   return (
     <>
       {props.show && <Backdrop onClick={props.onCancel} />}
       <CSSTransition
+        ref={ref}
         in={props.show}
         mountOnEnter
         unmountOnExit
         timeout={200}
         classNames="modal"
       >
-        <ModalOverlay  {...props} />
+        <ModalOverlay {...props} />
       </CSSTransition>
     </>
-  );
-};
+  )
+})
 
 export default Modal;

@@ -19,7 +19,3 @@
     color: black;
 }
 
-.homepage-grid-wrapper {
-    display: grid;
-    grid-template-columns: 40vh 1fr;
-}

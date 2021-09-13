@@ -1,7 +1,5 @@
 .sidebar_container {
     background-color: #615C9C;
-    height: 100vh;
-    width: 40vh;
     overflow-y: auto;
 }
 

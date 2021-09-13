@@ -8,7 +8,7 @@ export default function Button(props) {
             className={`button button--${props.size || 'default'}`}
             type={props.type}
             onClick={props.onClick}
-            onSubmit={props.onSubmit}
+            onSubmit={props.onSubmit} 
         >
             {props.children}
         </button>

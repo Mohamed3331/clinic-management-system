@@ -8,8 +8,8 @@ const auth = async (req, res, next) => {
         token = req.header('Authorization').replace('Bearer ', '')
 
         admin = await Admin.findById(req.header('AdminID'))
-
-        jwt.verify(token, 'thisisasecretjwt')
+        
+        jwt.verify(token, process.env.DB_JWT)
         
         if (!admin || !token) {
             throw new Error()

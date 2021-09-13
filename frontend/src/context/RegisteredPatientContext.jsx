@@ -10,10 +10,6 @@ const RegisteredPatientsReducer = (state, action) => {
   switch (action.type) {
     case "GET_REGISTEREDPATIENTS":
       return { ...state, registeredPatients: [...action.myList] };
-
-    // case "LOADING_SPINNER":
-    //   return { ...state, loadingList: false };
-
     default:
       return state;
   }
@@ -27,15 +23,13 @@ export default function RegisteredPatientsContext({children}) {
 
   const getRegisteredPatients = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:5000/registerd/patients");
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/registerd/patients`);
       if (response.statusText === "OK") {
         dispatch({
           type: "GET_REGISTEREDPATIENTS",
           myList: response.data.patients,
         });
       }
-      console.log(' i ran');
-      // dispatch({ type: "LOADING_SPINNER" });
     } catch (e) {
       console.log(e);
     }

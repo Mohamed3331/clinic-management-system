@@ -25,7 +25,7 @@ const FormSection = ({ register, formType, section, errors, title }) => {
                       {...register(section + "." + s.key, { ...s.validations })}
                     />
                   )}
-                  <ErrorValidation>{errors[s.key] && <span>This field is required</span>}</ErrorValidation>
+                  <ErrorValidation>{errors[section] && errors[section][s.key] && <span>This field is required</span>}</ErrorValidation>
                 </div>
               );
             })}

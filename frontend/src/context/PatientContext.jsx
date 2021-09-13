@@ -28,7 +28,7 @@ export default function PatientContext({children}) {
 
   const getData = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:5000/patients");
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/patients`);
       dispatch({
         type: "GET_PATIENTLIST",
         myList: response.data.patients,

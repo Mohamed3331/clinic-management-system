@@ -28,7 +28,7 @@ export default function PatientsList() {
     try {
         await axios({
             method: 'post',
-            url: `http://localhost:5000/register/patient`,
+            url: `${process.env.REACT_APP_BACKEND_URL}/register/patient`,
             data: {
               id,
               name,

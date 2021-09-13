@@ -14,19 +14,20 @@ export default function SideBar() {
         try {
             await axios({
                 method: 'delete',
-                url: `http://localhost:5000/unregister/patient/${id}`
+                url: `${process.env.REACT_APP_BACKEND_URL}/unregister/patient/${id}`
             });
             getData()
             getRegisteredPatients()
         } catch (e) {
             console.log(e);
         }
-    };
+    }
 
     useEffect(() => {
         getRegisteredPatients()
     }, [getRegisteredPatients])
 
+    
     
     return (
         <section className="sidebar_container">
