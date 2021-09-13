@@ -2,18 +2,12 @@ import React, { useContext } from "react";
 import Patient from "../Patient/Patient";
 import styled from "styled-components";
 import axios from 'axios';
-import { css } from "@emotion/react";
-import PulseLoader from "react-spinners/PulseLoader";
 import { MyContext } from "../../context/PatientContext";
 import {MyRegisteredPatientsContext} from '../../context/RegisteredPatientContext'
+import { useRecoilState } from "recoil";
+import { LoadingSpin } from "../../Atom/Atom";
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import "./PatientsList.css";
-
-const override = css`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  display: block;
-`;
 
 const EmptyHeaderStyle = styled.h2`
   font-size: 50px;
@@ -25,10 +19,12 @@ const EmptyHeaderStyle = styled.h2`
 `;
 
 export default function PatientsList() {
-  const { patientList, loadingList, getData, searchPatientResult} = useContext(MyContext);
+  const { patientList, getData, searchPatientResult} = useContext(MyContext);
   const {getRegisteredPatients} = useContext(MyRegisteredPatientsContext)
+  const [loading, setLoading] = useRecoilState(LoadingSpin)
 
   const registerPatient = async (id, name) => {
+    setLoading(true)
     try {
         await axios({
             method: 'post',
@@ -40,8 +36,9 @@ export default function PatientsList() {
         });
         getRegisteredPatients()
         getData()
+        setLoading(false)
     } catch (e) {
-        console.log(e);
+      console.log(e);
     }
   };
 
@@ -51,8 +48,8 @@ export default function PatientsList() {
 
   return (
     <>
-      {loadingList ? (
-        <PulseLoader loading={loadingList} css={override} size={30} margin={10} />
+      {loading ? (
+        <LoadingSpinner />
       ) : (
         <section className="patientlist_container">
           <table id="patients">

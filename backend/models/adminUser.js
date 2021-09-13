@@ -34,7 +34,7 @@ const adminSchema = new mongoose.Schema({
 
 adminSchema.methods.generateAuthToken = async function () {
     const admin = this
-    const token = jwt.sign({ _id: admin._id.toString() }, 'thisisasecretjwt', { expiresIn: '2d' })
+    const token = jwt.sign({ _id: admin._id.toString() }, 'thisisasecretjwt', { expiresIn: '5000' })
 
     admin.tokens = admin.tokens.concat({ token })
     await admin.save()

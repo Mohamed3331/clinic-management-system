@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useReducer } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import logo from "../../Assets/logo.png";
 import Button from "../../components/Button/Button";
@@ -8,219 +7,130 @@ import { RiArrowGoBackFill } from "react-icons/ri";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import '../../components/InputHandler/InputHandler.css'
-import FormSection from '../../components/FormElements/FormSection'
-import { useRecoilValue, useRecoilState } from 'recoil';
-import {Token, AdminID, LoggedUser} from '../../Atom/Atom'
+import "../../components/FormElements/InputHandler.css";
+import FormSection from "../../components/FormElements/FormSection";
+import { useRecoilState } from "recoil";
+import { LoggedUser } from "../../Atom/Atom";
+
+import * as myFormInputs from "../../Utils/FormInputs";
 
 import "./PatientDetailsPage.css";
-
-const personalDetails = {
-  patientName: {
-    key: 'patientName',
-    labelName: 'اسم المريض',
-    validations: {
-      required: true,
-    }
-  },
-  phone: {
-    key: 'phoneNumber',
-    labelName: 'رقم الهاتف',
-    validations: {
-      required: true,
-    }
-  },
-  birthdate: {
-    key: 'birthDate',
-    labelName: 'تاريخ الميلاد',
-    type: 'date',
-    validations: {
-      required: true,
-    }
-  },
-  age: {
-    key: 'age',
-    labelName: 'السن',
-    type: 'number',
-    validations: {
-      required: true,
-      valueAsNumber: true,
-    }
-  },
-  insurance: {
-    key: 'insurance',
-    labelName: 'التامين',
-    type: 'checkbox',
-    validations: {
-      required: true,
-    }
-  },
-}
-
-const vitalModifiers = {
-  bloodpressure: {
-    key: 'bloodpressure',
-    labelName: 'ضغط الدم',
-  },
-  breathing: {
-    key: 'breathing',
-    labelName: 'التنفس',
-  },
-  heartrate: {
-    key: 'heartrate',
-    labelName: 'معدل النبض',
-  },
-  bloodtype: {
-    key: 'bloodtype',
-    labelName: 'فصيلة الدم',
-    select: true,
-    myOptions: ['none', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
-  },
-  weight: {
-    key: 'weight',
-    labelName: 'الوزن',
-  },
-}
-
-const usualHabits = {
-  eatfruits: {
-    key: 'eatfruits',
-    labelName: 'اكل الفواكهة',
-    type: 'checkbox'
-  },
-  eatvegetables: {
-    key: 'eatvegetables',
-    labelName: 'اكل الخضراوات',
-    type: 'checkbox'
-  },
-  eatmeat: {
-    key: 'eatmeat',
-    labelName: 'اكل الحوم',
-    type: 'checkbox'
-  },
-  smoke: {
-    key: 'smoke',
-    labelName: 'التدخين',
-    select: true,
-    myOptions: ['none', 'Never', 'Seldom', 'Regularly', 'Intensive']
-    
-  },
-  alcohol: {
-    key: 'alcohol',
-    labelName: 'الكحول',
-    select: true,
-    myOptions: ['none', 'Never', 'Seldom', 'Regularly', 'Intensive']
-  },
-  workout: {
-    key: 'workout',
-    labelName: 'ممارسة الرياضة',
-    select: true,
-    myOptions: ['none', 'Never', 'Seldom', 'Regularly', 'Intensive']
-  },
-}
 
 const myReducer = (state, action) => {
   switch (action.type) {
     case "INPUT_CHANGE":
-      return {...state, [action.inputId]: action.value}
+      return { ...state, [action.inputId]: action.value };
     case "ADD_ITEM":
-      return {...state, [action.myCategory]: [...state[action.myCategory], {ctgy: action.myCategory, value: state.myInput}] }
+      return {
+        ...state,
+        [action.myCategory]: [
+          ...state[action.myCategory],
+          { ctgy: action.myCategory, value: state.myInput },
+        ],
+      };
     case "REMOVE_ITEM":
-      return {...state, [action.myCategory]: state[action.myCategory].filter(item => item.id !== action.id) }
+      return {
+        ...state,
+        [action.myCategory]: state[action.myCategory].filter(
+          (item) => item.id !== action.id
+        ),
+      };
     default:
       return state;
   }
 };
 
 export default function DetailsSection() {
-  const [myPatient, setMyPatient] = useState([])
+  const [myPatient, setMyPatient] = useState([]);
   const [MyState, dispatch] = useReducer(myReducer, {
     diseases: [],
     drugs: [],
     prevsurgeries: [],
     alergies: [],
-    myInput: ''
-  })
+    myInput: "",
+  });
   console.log(MyState);
-  // const [token, setToken] = useRecoilState(Token)
-  const adminID = useRecoilValue(AdminID)
-  const [isLoggedIn, setLoggedIn] = useRecoilState(LoggedUser)
-  
+  const [isLoggedin, setLoggedIn] = useRecoilState(LoggedUser);
+
   let history = useHistory();
   let { id } = useParams();
 
-    const changeHandler = (e) => {
-      dispatch({
-        type: "INPUT_CHANGE",
-        inputId: e.target.id,
-        value: e.target.value,
-      });
-    };
+  const changeHandler = (e) => {
+    dispatch({
+      type: "INPUT_CHANGE",
+      inputId: e.target.id,
+      value: e.target.value,
+    });
+  };
 
-    const addHandler = (myCategory) => {
-      dispatch({
-        type: "ADD_ITEM",
-        myCategory,
-        // myId: uuidv4(),
-      });
-    };
+  const addHandler = (myCategory) => {
+    dispatch({
+      type: "ADD_ITEM",
+      myCategory,
+    });
+  };
 
-    const removeHandler = (id, ctgy) => {
-      dispatch({
-        type: "REMOVE_ITEM",
-        myCategory: ctgy,
-        id,
-      });
-    };
+  const removeHandler = (id, ctgy) => {
+    dispatch({
+      type: "REMOVE_ITEM",
+      myCategory: ctgy,
+      id,
+    });
+  };
 
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, reset, formState: { errors }} = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     setLoading(true);
-    const storedData = JSON.parse(localStorage.getItem('adminData'))
-    
+    const storedData = JSON.parse(localStorage.getItem("adminData"));
+
     const fetchPatientData = async (id) => {
       try {
         const response = await axios({
           method: "get",
           url: `http://localhost:5000/patient/${id}`,
           headers: {
-            Authorization: 'Bearer ' + storedData.token,
-            adminID: storedData.uid
-          }
-        })
+            Authorization: "Bearer " + storedData.token,
+            adminID: storedData.uid,
+          },
+        });
         if (response.data.message) {
-          localStorage.setItem('adminData',JSON.stringify({uid: '', token: ''} ));
-          setLoggedIn(false)
-        }else {
-          reset(response.data.patient)
-          setMyPatient(response.data.patient)
+          localStorage.setItem(
+            "adminData",
+            JSON.stringify({ uid: "", token: "" })
+          );
+          setLoggedIn(false);
+        } else {
+          reset(response.data.patient);
+          setMyPatient(response.data.patient);
         }
       } catch (e) {
         console.log(e);
       }
       setLoading(false);
-      
     };
     fetchPatientData(id);
-    
   }, [id, reset]);
 
   const onSubmit = async (data) => {
-    delete MyState.myInput
+    delete MyState.myInput;
     try {
       await axios({
         method: "patch",
         url: `http://localhost:5000/patient/${id}`,
-        data: {...data, ...MyState}
+        data: { ...data, ...MyState },
       });
     } catch (e) {
       console.log(e);
     }
-  }
-  console.log(errors);
+  };  
 
   return (
     <>
@@ -257,7 +167,7 @@ export default function DetailsSection() {
                 errors={errors}
                 section="patientDetails"
                 register={register}
-                formType={personalDetails}
+                formType={myFormInputs.personalDetails}
               />
 
               <FormSection
@@ -265,7 +175,7 @@ export default function DetailsSection() {
                 errors={errors}
                 section="vitalmodifiers"
                 register={register}
-                formType={vitalModifiers}
+                formType={myFormInputs.vitalModifiers}
               />
 
               <FormSection
@@ -273,7 +183,7 @@ export default function DetailsSection() {
                 errors={errors}
                 section="usualhabits"
                 register={register}
-                formType={usualHabits}
+                formType={myFormInputs.usualHabits}
               />
 
               <div className="patient__list__chronic__diseases__wrapper">
@@ -320,9 +230,8 @@ export default function DetailsSection() {
                       </button>
                     </div>
                     <ItemsList
-                      items={
-                        (MyState.diseases, myPatient && myPatient.diseases)
-                      }
+                      newItems={MyState.diseases}
+                      oldItems={myPatient.diseases}
                       removeHandler={removeHandler}
                     />
                   </div>
@@ -346,9 +255,8 @@ export default function DetailsSection() {
                       </button>
                     </div>
                     <ItemsList
-                      items={
-                        (MyState.alergies, myPatient && myPatient.alergies)
-                      }
+                      newItems={MyState.alergies}
+                      oldItems={myPatient.alergies}
                       removeHandler={removeHandler}
                     />
                   </div>
@@ -370,13 +278,14 @@ export default function DetailsSection() {
                       <button onClick={() => addHandler("drugs")}>Add</button>
                     </div>
                     <ItemsList
-                      items={MyState.drugs}
+                      newItems={MyState.drugs}
+                      oldItems={myPatient.drugs}
                       removeHandler={removeHandler}
                     />
                   </div>
-                </div>
-                
+                </div> 
               </div>
+              
             </div>
           </section>
         </form>
@@ -385,25 +294,21 @@ export default function DetailsSection() {
   );
 }
 
-function ItemsList({newItems, oldItems, removeHandler}) {
-  const myList = oldItems && [...newItems, ...oldItems]
+function ItemsList({ newItems, oldItems, removeHandler }) {
+  const myList = oldItems && [...newItems, ...oldItems];
   return (
-      <div>
-        {myList && myList.map((item, index) => {
+    <div>
+      {myList &&
+        myList.map((item, index) => {
           return (
             <div className="item_list_wrapper" key={index}>
               <span>{`#${index + 1} ${item.value}`}</span>
-              <button onClick={() => removeHandler(item.id, item.ctgy)}><FaTrashAlt className="icon-trash-style" size={18}/></button>
+              <button onClick={() => removeHandler(item.id, item.ctgy)}>
+                <FaTrashAlt className="icon-trash-style" size={18} />
+              </button>
             </div>
           );
         })}
-      </div>
-    );
-  }
-
-
-
-
-
-
-
+    </div>
+  );
+}

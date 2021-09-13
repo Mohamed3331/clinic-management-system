@@ -14,8 +14,8 @@
 
 .button-wrapper {
     position: absolute;
-    bottom: 3rem;
-    left: 25rem;
+    bottom: 50px;
+    margin-left: 20px;
     color: black;
 }
 

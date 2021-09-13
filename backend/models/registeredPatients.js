@@ -16,6 +16,8 @@ const registeredPatientsSchema = new mongoose.Schema(
   }
 );
 
+registeredPatientsSchema.index({createdAt: 1},{expireAfterSeconds: 5});
+
 const RegisteredPatient = mongoose.model("RegisteredPatient", registeredPatientsSchema);
 
 module.exports = RegisteredPatient;

@@ -111,21 +111,6 @@ const patientSchema = new mongoose.Schema(
   }
 );
 
-// patientSchema.statics.UnRegisterPatients = async function () {
-//   let patients = await Patient.updateMany(
-//     {},
-//     { $set: { registered: "false" } }
-//   );
-
-//   console.log("i raaaaaaaaaaaaaaaan");
-
-//   if (!patients) {
-//     throw new Error("Unable to unregister");
-//   }
-
-//   return patients;
-// };
-
 patientSchema.pre('save', async function (next) {
   const patient = this
   if (patient.patientDetails.birthDate) {

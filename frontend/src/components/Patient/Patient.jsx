@@ -27,7 +27,7 @@ export default function Patient({phoneNumber, patientName, createdAt, _id, regis
         const myPatient = registeredPatients.find(p => p._id === _id)
         setPatientStatus(myPatient ? true : false)
     }, [registeredPatients, _id])
-
+    
     return (
         <>
             <tr >
@@ -37,7 +37,7 @@ export default function Patient({phoneNumber, patientName, createdAt, _id, regis
                         <FaCheckCircle size={35} color="green"/> : 
                         <Button 
                             onClick={() => registerPatient(_id, patientName)} 
-                            color="#615C9C" 
+                            color="#bfb5ff" 
                             size="circle">حجز المريض
                         </Button> 
                     } 

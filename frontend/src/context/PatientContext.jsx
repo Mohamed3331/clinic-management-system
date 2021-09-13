@@ -15,9 +15,6 @@ const patientReducer = (state, action) => {
       case "GET_PATIENTLIST":
         return {...state, patientList: [...action.myList]}
       
-      case "LOADING_SPINNER":
-        return {...state, loadingList: false}
-      
       default:
         return state;
     }
@@ -36,7 +33,6 @@ export default function PatientContext({children}) {
         type: "GET_PATIENTLIST",
         myList: response.data.patients,
       });
-      dispatch({ type: "LOADING_SPINNER" });
     } catch (e) {
       console.log(e);
     }

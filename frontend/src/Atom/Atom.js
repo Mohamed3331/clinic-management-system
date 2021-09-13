@@ -10,14 +10,19 @@ export const LoggedUser = atom ({
     default: false
 })
 
-export const Token = atom ({
-    key: "token",
-    default: ''
-})
+// export const Token = atom ({
+//     key: "token",
+//     default: ''
+// })
 
-export const AdminID = atom ({
-    key: "AdminID",
-    default: ''
+// export const AdminID = atom ({
+//     key: "AdminID",
+//     default: ''
+// })
+
+export const LoadingSpin = atom ({
+    key: "loading",
+    default: false
 })
 
   

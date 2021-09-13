@@ -119,13 +119,11 @@ router.get("/search", async (req, res) => {
       let result = await Patient
         .aggregate([
             {
-              "$search": {
-                "text": {
-                  "query": `${req.query.term}`,
-                  "path": "patientDetails.patientName",
-                  "fuzzy": {
-                    "maxEdits": 2
-                  }
+              $search: {
+                index: 'defaultt',
+                text: {
+                  query: `${req.query.term}`,
+                  path: "patientDetails.patientName",
                 }
               }
             }
@@ -141,13 +139,3 @@ module.exports = router
 // router.delete('/patients', async (req, res) => {
 //     res.send("delete patient route")
 // })
-
-
-// const _id = req.params.id
-// let patient
-// try {
-//     patient = await Patient.findByIdAndUpdate(_id, {"registered": req.body.registered}, {new: true, useFindAndModify: false});        
-//     res.status(200).send({ patient })
-// } catch (e) {
-//     res.status(400).send(e)
-// }

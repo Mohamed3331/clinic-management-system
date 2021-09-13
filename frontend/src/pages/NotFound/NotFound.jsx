@@ -1,6 +1,8 @@
 import React from "react";
 
-export const Page404 = () => {
+import './NotFound.css' 
+
+const NotFound = () => {
   return (
     <>
       <div id="notfound">
@@ -17,3 +19,5 @@ export const Page404 = () => {
     </>
   );
 };
+
+export default NotFound
