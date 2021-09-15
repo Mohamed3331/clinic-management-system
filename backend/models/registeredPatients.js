@@ -8,10 +8,9 @@ const registeredPatientsSchema = new mongoose.Schema({
     trim: true,
     type: String,
   },
-  createdAt: Date,
+  createdAt: { type: Date, expires: 3600, default: Date.now },
 });
 
-registeredPatientsSchema.index({ createdAt: 1 }, { expireAfterSeconds: 120 });
 
 const RegisteredPatient = mongoose.model(
   "RegisteredPatient",
