@@ -11,6 +11,10 @@
 ### `Motiviation`
 Mainly i developed this project to enhance my skills in MERN stack to build full stack web applications, using clean, reusable and documented code.
 
+### `Technologies used`
+### Frontend i used mainly React along with other libraries for handling some animations and form such as React-Hook-Form
+### Backend i used Nodejs & Express along with other libraries for hashing password, Mongoose ORM for MongoDB, JWT. The Database was mainly Mongodb atlas along with the aggregate framework for providing fuzzy search resuls.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
