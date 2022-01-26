@@ -1,65 +1,69 @@
-import React, {useEffect, useReducer, useCallback} from 'react'
-import axios from 'axios';
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+//                   NOTE: LEGACY CODE
+// This file contains legacy code of react context, I updated it by
+// USing Redux Toolkit as the main state management for this App.
+// I only kept this file and the ./RegisteredPatientContext.jsx file
+// Just for Illustration.
 
-const initialState = {
-  patientList: [],
-  searchPatientResult: [],
-  loadingList: true
-};
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-const patientReducer = (state, action) => {
-    switch (action.type) {
-      case "GET_SEARCHRESULT":
-        return {...state, searchPatientResult: [...action.myList]}
+// import React, {useEffect, useReducer, useCallback} from 'react'
+// import axios from 'axios';
 
-      case "GET_PATIENTLIST":
-        return {...state, patientList: [...action.myList]}
-      
-      default:
-        return state;
-    }
-  };
+// const initialState = {
+//   patientList: [],
+//   searchPatientResult: [],
+//   loadingList: true
+// };
 
-export const MyContext = React.createContext()
+// const patientReducer = (state, action) => {
+//     switch (action.type) {
+//       case "GET_SEARCHRESULT":
+//         return {...state, searchPatientResult: [...action.myList]}
 
-export default function PatientContext({children}) {
+//       case "GET_PATIENTLIST":
+//         return {...state, patientList: [...action.myList]}
 
-  const [state, dispatch] = useReducer(patientReducer, initialState);
+//       default:
+//         return state;
+//     }
+//   };
 
-  const getData = useCallback(async () => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/patients`);
-      dispatch({
-        type: "GET_PATIENTLIST",
-        myList: response.data.patients,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
+// export const MyContext = React.createContext()
 
-  const getPatientsResult = useCallback ( (res) => {
-    dispatch({
-      type: "GET_SEARCHRESULT",
-      myList: res.data.message ? [] : res.data,
-    });
-  }
-  , [])
+// export default function PatientContext({children}) {
 
-  useEffect(() => {
-    getData();
-  }, [getData]);
+//   const [state, dispatch] = useReducer(patientReducer, initialState);
 
+//   const getData = useCallback(async () => {
+//     try {
+//       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/patients`);
+//       dispatch({
+//         type: "GET_PATIENTLIST",
+//         myList: response.data.patients,
+//       });
+//     } catch (e) {
+//       console.log(e);
+//     }
+//   }, []);
 
-    return (
-        <>
-          <MyContext.Provider value={{...state,getPatientsResult, getData}}>
-            {children}           
-          </MyContext.Provider>
-        </>
-    )
-}
-
-// export const usePatientContext = () => {
-//     return useContext(MyContext)
+//   const getPatientsResult = useCallback ( (res) => {
+//     dispatch({
+//       type: "GET_SEARCHRESULT",
+//       myList: res.data.message ? [] : res.data,
+//     });
 //   }
+//   , [])
+
+//   useEffect(() => {
+//     getData();
+//   }, [getData]);
+
+//     return (
+//         <>
+//           <MyContext.Provider value={{...state,getPatientsResult, getData}}>
+//             {children}
+//           </MyContext.Provider>
+//         </>
+//     )
+// }

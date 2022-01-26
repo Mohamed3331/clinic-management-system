@@ -24,12 +24,12 @@ const patientSchema = new mongoose.Schema(
         type: String,
         trim: true,
         unique: true,
-        validate: {
-          validator: function (val) {
-            return val.toString().length >= 11;
-          },
-          message: `يجب رقم الهاتف ان يكون فوق 11 رقم`,
-        },
+        // validate: {
+        //   validator: function (val) {
+        //     return val.toString().length >= 11;
+        //   },
+        //   message: `phone number consists of 11 true digits`,
+        // },
       },
       birthDate: {
         required: true,
@@ -117,9 +117,12 @@ const patientSchema = new mongoose.Schema(
 
 patientSchema.pre("save", async function (next) {
   const patient = this;
+
   if (patient.patientDetails.birthDate) {
-    patient.patientDetails.age = await (new Date().getFullYear() -
-      new Date(patient.birthDate).getFullYear());
+    patient.patientDetails.age = await Number(
+      new Date().getFullYear() -
+      new Date(patient.patientDetails.birthDate).getFullYear()
+    );
   }
   next();
 });

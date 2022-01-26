@@ -18,7 +18,7 @@ const adminSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 7,
+    minlength: 5,
     trim: true,
   },
   tokens: [
@@ -33,8 +33,8 @@ const adminSchema = new mongoose.Schema({
 
 adminSchema.methods.generateAuthToken = async function () {
   const admin = this;
-  const token = jwt.sign({ _id: admin._id.toString() }, "thisisasecretjwt", {
-    expiresIn: "2d",
+  const token = jwt.sign({ _id: admin._id.toString() }, process.env.DB_JWT, {
+    expiresIn: "3d",
   });
 
   admin.tokens = admin.tokens.concat({ token });

@@ -1,18 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import PatientContext from './context/PatientContext'
-import RegisteredPatientContext from './context/RegisteredPatientContext'
-import {RecoilRoot} from "recoil"
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 ReactDOM.render(
-      <PatientContext>
-        <RegisteredPatientContext>
-          <RecoilRoot>
-              <App />
-          </RecoilRoot>
-        </RegisteredPatientContext>
-      </PatientContext>,
-  document.getElementById('root')
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
 );
-

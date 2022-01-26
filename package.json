@@ -1,0 +1,21 @@
+{
+  "name": "clinic-management-system",
+  "version": "1.0.0",
+  "description": "1- Creating a new patient by filling in form\r 2- Registering/UnRegistering patients for appoinments\r 3- Performing CRUD operations on patient's data (Requires Authentication by the doctor or admin)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-dependencies": "cd backend && npm install && cd ../frontend && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mohamed3331/clinic-management-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mohamed3331/clinic-management-system/issues"
+  },
+  "homepage": "https://github.com/Mohamed3331/clinic-management-system#readme"
+}

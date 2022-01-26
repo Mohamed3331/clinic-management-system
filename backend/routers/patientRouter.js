@@ -4,6 +4,21 @@ const Patient = require("../models/patient");
 const RegisteredPatient = require("../models/registeredPatients");
 const router = new express.Router();
 
+// patients CRUD routes
+router.get("/patients", async (req, res) => {
+  let patients;
+
+  try {
+    patients = await Patient.find();
+    if (!patients) {
+      res.status(401).send({ message: "error happened" });
+    }
+    res.status(200).send({ patients });
+  } catch (e) {
+    res.status(401).send({ message: "Something went wrong" });
+  }
+});
+
 router.get("/patient/:id", auth, async (req, res) => {
   const _id = req.params.id;
   let patient;
@@ -12,21 +27,7 @@ router.get("/patient/:id", auth, async (req, res) => {
     patient = await Patient.findById({ _id });
     res.status(200).send({ patient });
   } catch (e) {
-    res.status(400).send(e);
-  }
-});
-
-router.get("/patients", async (req, res) => {
-  let patients;
-
-  try {
-    patients = await Patient.find();
-    if (!patients) {
-      res.send({ message: "error happened" });
-    }
-    res.status(200).send({ patients });
-  } catch (e) {
-    res.status(400).send(e);
+    res.status(401).send({ message: "Something went wrong" });
   }
 });
 
@@ -57,21 +58,22 @@ router.post("/create/patient", async (req, res) => {
 });
 
 router.patch("/patient/:id", async (req, res) => {
-  const _id = req.params.id;
   let patient;
-
   try {
+    const _id = req.params.id;
     patient = await Patient.findByIdAndUpdate(_id, req.body, { new: true });
     if (!patient) {
-      res.send({ message: "Patient Not Found" });
+      return res.status(400).send({ message: "Patient Not Found" });
     }
+    patient.save()
     res.status(200).send({ patient });
   } catch (e) {
-    res.send(e);
+    res.status(400).send({ message: "Patient Update data Failed" });
   }
 });
 
-router.get("/registerd/patients", async (req, res) => {
+// registerd patients routes
+router.get("/registered/patients", async (req, res) => {
   let patients;
 
   try {
@@ -79,39 +81,40 @@ router.get("/registerd/patients", async (req, res) => {
     if (!patients) {
       res.send({ message: "error happened" });
     }
-    res.status(200).send({ patients });
+    res.status(200).send({ registeredPatients: patients });
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).send({ message: "Patient Not Found" });
   }
 });
 
 router.post("/register/patient", async (req, res) => {
   const myPatient = req.body;
-  let patient = new RegisteredPatient({
-    name: myPatient.name,
-    _id: myPatient.id,
-    register: myPatient.register,
-  });
-
-  if (!patient) {
-    res.status(400).send("patient error bro");
-  }
-
+  let patient
   try {
+    patient = new RegisteredPatient({
+      name: myPatient.name,
+      _id: myPatient.id,
+    });
+    if (!patient) {
+      return res.status(400).send("patient error bro");
+    }
     await patient.save();
     res.status(201).send({ patient });
-  } catch (error) {}
+  } catch (error) {
+    res.status(400).send({ message: "Patient error" });
+  }
 });
 
 router.delete("/unregister/patient/:id", async (req, res) => {
   try {
     await RegisteredPatient.findByIdAndDelete({ _id: req.params.id });
-    res.status(200).send("done");
+    res.status(200).send({ success: "Deleted" });
   } catch (error) {
     res.status(400).send(error);
   }
 });
 
+// search results route
 router.get("/search", async (req, res) => {
   try {
     let result = await Patient.aggregate([

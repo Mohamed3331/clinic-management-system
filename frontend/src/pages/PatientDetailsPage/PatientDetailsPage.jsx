@@ -9,11 +9,8 @@ import { FaEdit } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import "../../components/FormElements/InputHandler.css";
 import FormSection from "../../components/FormElements/FormSection";
-import { useRecoilState } from "recoil";
-import { LoggedUser } from "../../Atom/Atom";
-
 import * as myFormInputs from "../../Utils/FormInputs";
-
+import { useSelector } from "react-redux";
 import "./PatientDetailsPage.css";
 
 const myReducer = (state, action) => {
@@ -41,7 +38,6 @@ const myReducer = (state, action) => {
 };
 
 export default function DetailsSection() {
-  const [myPatient, setMyPatient] = useState([]);
   const [MyState, dispatch] = useReducer(myReducer, {
     diseases: [],
     drugs: [],
@@ -50,10 +46,20 @@ export default function DetailsSection() {
     myInput: "",
   });
 
-  const [isLoggedIn, setLoggedIn] = useRecoilState(LoggedUser);
-  
+  const [myPatient, setMyPatient] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { token } = useSelector((state) => state.authToken);
+
   let history = useHistory();
   let { id } = useParams();
+  let _token;
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
   const changeHandler = (e) => {
     dispatch({
@@ -78,60 +84,48 @@ export default function DetailsSection() {
     });
   };
 
-  const [loading, setLoading] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-
   useEffect(() => {
     setLoading(true);
-    const storedData = JSON.parse(localStorage.getItem("adminData"));
 
-  const fetchPatientData = async (id) => {
+    const fetchPatientData = async (id) => {
       try {
         const response = await axios({
           method: "get",
           url: `${process.env.REACT_APP_BACKEND_URL}/patient/${id}`,
           headers: {
-            Authorization: "Bearer " + storedData.token,
-            adminID: storedData.uid,
+            Authorization: "Bearer " + token,
           },
         });
-        if (response.data.message) {
-          localStorage.setItem(
-            "adminData",
-            JSON.stringify({ uid: "", token: "" })
-          );
-          setLoggedIn(false);
-        } else {
-          reset(response.data.patient);
-          setMyPatient(response.data.patient);
-        }
+        console.log(response);
+        reset(response.data.patient);
+        setMyPatient(response.data.patient);
       } catch (e) {
-        console.log(e);
+        history.push("/");
+        console.log(e.response.data.message);
       }
       setLoading(false);
-  };
-  
+    };
+
     fetchPatientData(id);
-  }, [id, reset, setLoggedIn]);
+  }, [id, reset, token]);
 
   const onSubmit = async (data) => {
     delete MyState.myInput;
+    delete data.createdAt;
+
     try {
       await axios({
         method: "patch",
         url: `${process.env.REACT_APP_BACKEND_URL}/patient/${id}`,
         data: { ...data, ...MyState },
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       });
     } catch (e) {
       console.log(e);
     }
-  };  
+  };
 
   return (
     <>
@@ -142,13 +136,13 @@ export default function DetailsSection() {
             <div className="patient__list__details__left__wrapper">
               <div className="left_wrapper">
                 <div className="patient__list__header__chronic">ملاحظات</div>
-                <textarea  {...register("patientNotes")} />
+                <textarea {...register("patientNotes")} />
                 <Button
                   color={"#DCDCDC"}
                   size="big"
                   textColor="black"
                   type="submit"
-                  disabled={isLoggedIn}
+                  disabled={_token && !!_token}
                 >
                   Save <FaEdit size="25" />
                 </Button>
@@ -285,9 +279,8 @@ export default function DetailsSection() {
                       removeHandler={removeHandler}
                     />
                   </div>
-                </div> 
+                </div>
               </div>
-              
             </div>
           </section>
         </form>

@@ -1,21 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
 import Button from "../Button/Button";
-import { MyRegisteredPatientsContext } from "../../context/RegisteredPatientContext";
-import { LoggedUser } from "../../Atom/Atom";
-import { useRecoilValue } from "recoil";
-
-const StyledLink = styled(Link)`
-  color: black;
-  font-weight: bold;
-  text-decoration: none;
-  &:hover {
-    color: #615c9c;
-    border-bottom: 2px solid #615c9c;
-  }
-`;
+import { useSelector } from "react-redux";
+import { StyledLink } from "../StyledLink";
 
 export default function Patient({
   phoneNumber,
@@ -24,14 +11,20 @@ export default function Patient({
   _id,
   registerPatient,
 }) {
-  const { registeredPatients } = useContext(MyRegisteredPatientsContext);
   const [myPatientStatus, setPatientStatus] = useState(false);
-  const isLoggedIn = useRecoilValue(LoggedUser);
   const patientDateCreated = new Date(createdAt);
 
+  const { token } = useSelector((state) => state.authToken);
+  const { registeredPatients } = useSelector(
+    (state) => state.registeredPatients
+  );
+
+  const authRoute = !!token ? _id : "/";
+
   useEffect(() => {
+    console.log(!!token);
     const myPatient = registeredPatients.find((p) => p._id === _id);
-    setPatientStatus(myPatient ? true : false);
+    setPatientStatus(!!myPatient);
   }, [registeredPatients, _id]);
 
   return (
@@ -53,9 +46,7 @@ export default function Patient({
         <td>{phoneNumber ? phoneNumber : "No Phone Number"}</td>
         <td>{patientDateCreated.toString().slice(4, 15)}</td>
         <td>
-          <StyledLink to={`/${isLoggedIn ? _id : ""}`}>
-            {patientName}
-          </StyledLink>
+          <StyledLink to={authRoute}>{patientName}</StyledLink>
         </td>
       </tr>
     </>

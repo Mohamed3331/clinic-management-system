@@ -1,32 +1,28 @@
-const jwt = require('jsonwebtoken')
-const Admin = require('../models/adminUser')
+const jwt = require("jsonwebtoken");
+const Admin = require("../models/adminUser");
 
 const auth = async (req, res, next) => {
-    let token
-    let admin
-    try {
-        token = req.header('Authorization').replace('Bearer ', '')
+  try {
+    const token = req.header("Authorization").replace("Bearer ", "");
+    const decoded = jwt.verify(token, process.env.DB_JWT);
 
-        admin = await Admin.findById(req.header('AdminID'))
-        
-        jwt.verify(token, process.env.DB_JWT)
-        
-        if (!admin || !token) {
-            throw new Error()
-        }
-        
-        next()
-    } catch (e) {
-        if (e.message === 'jwt expired') {
-            admin.tokens = admin.tokens.filter((tok) => {
-                return tok.token !== token
-            })
-            await admin.save()
-            res.send({message: e.message})
-        } else {
-            res.send({message: "Please Authenticate"})
-        }
+    const adminUser = await Admin.findOne({
+      _id: decoded._id,
+      "tokens.token": token,
+    });
+
+    if (!token || !adminUser) {
+      throw new Error(
+        "Something went wrong with the authentication process..."
+      );
     }
-}
 
-module.exports = auth
+    req.token = token;
+    req.user = adminUser;
+    next();
+  } catch (e) {
+    res.status(401).send({ message: "Please Authenticate" });
+  }
+};
+
+module.exports = auth;
