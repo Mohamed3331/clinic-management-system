@@ -27,6 +27,7 @@ app.listen(port, async () => {
     console.log("database connected");
   } catch (error) {
     console.log(error);
+    process.exit(1)
   }
   console.log("server started on port: " + port);
 });

@@ -15,11 +15,6 @@ function App() {
   //   localStorage.setItem("adminData", JSON.stringify({ uid, token }));
   // }, []);
 
-  // useEffect(() => {
-  //   const storedData = JSON.parse(localStorage.getItem("adminData"));
-  //   storedData && setLoggedIn(!!storedData.token);
-  // }, [setLoggedIn]);
-
   // login={login}
   // {isLoggedIn ? <PatientDetailsPage /> : <Redirect to="/" />}
   return (

@@ -2,21 +2,25 @@ import { configureStore } from "@reduxjs/toolkit";
 import patientsListReducer from "./patientsSlice";
 import registeredPatientsListReducer from "./registeredPatientsSlice";
 import filteredPatientsReducer from "./filteredPatientsSlice";
-import adminSlice from "./adminSlice";
-// import logger from 'redux-logger'
+import authReducer from "./authSlice";
+// import { authMiddleware } from './authSlice'
 
 // const rootReducer = {
 //   patients: patientListReducer,
 // }
+
+const token = localStorage.getItem("adminToken") ? localStorage.getItem("adminToken") : ""
 
 export const store = configureStore({
   reducer: {
     patients: patientsListReducer,
     registeredPatients: registeredPatientsListReducer,
     filteredPatients: filteredPatientsReducer,
-    authToken: adminSlice,
+    authToken: authReducer,
   },
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  devTools: process.env.NODE_ENV !== 'production',
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authMiddleware),
+  preloadedState: { authToken: { token, error: "" } }
 });
 
 // console.log(store.getState());

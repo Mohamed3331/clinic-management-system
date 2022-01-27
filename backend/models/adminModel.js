@@ -31,10 +31,11 @@ const adminSchema = new mongoose.Schema({
   ],
 });
 
+// methods to be called on the instance / object of a class/model
 adminSchema.methods.generateAuthToken = async function () {
   const admin = this;
   const token = jwt.sign({ _id: admin._id.toString() }, process.env.DB_JWT, {
-    expiresIn: "3d",
+    expiresIn: "120",
   });
 
   admin.tokens = admin.tokens.concat({ token });
@@ -43,6 +44,7 @@ adminSchema.methods.generateAuthToken = async function () {
   return token;
 };
 
+// static methods to be called on the parent class/model
 adminSchema.statics.findByCredentials = async (email, password) => {
   const admin = await Admin.findOne({ email });
 
@@ -58,6 +60,7 @@ adminSchema.statics.findByCredentials = async (email, password) => {
 
   return admin;
 };
+
 
 adminSchema.pre("save", async function (next) {
   const admin = this;

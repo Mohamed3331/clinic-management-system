@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const RegisteredPatient = require("../models/registeredPatients");
+const RegisteredPatient = require("./registeredPatientModel");
 
 const patientSchema = new mongoose.Schema(
   {
@@ -24,12 +24,12 @@ const patientSchema = new mongoose.Schema(
         type: String,
         trim: true,
         unique: true,
-        // validate: {
-        //   validator: function (val) {
-        //     return val.toString().length >= 11;
-        //   },
-        //   message: `phone number consists of 11 true digits`,
-        // },
+        validate: {
+          validator: function (val) {
+            return val.toString().length === 11;
+          },
+          message: `phone number must consists of 11 true digits`,
+        },
       },
       birthDate: {
         required: true,

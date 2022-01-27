@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import image1 from "../../Assets/image1.png";
 import Button from "../../components/Button/Button";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -8,13 +8,14 @@ import { BsPlusCircle } from "react-icons/bs";
 import AddPatient from "../../components/AddPatient/AddPatient";
 import Login from "../../components/LoginUser/Login";
 import { useMediaQuery } from "react-responsive";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import "./HomePage.css";
 import ToastWarning from "../../components/ToastWarning";
 
 const HomePage = (props) => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1200px)" });
+
   const [showPatientForm, setShowPatientForm] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(false);
   const { token } = useSelector((state) => state.authToken);

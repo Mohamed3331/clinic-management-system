@@ -1,12 +1,20 @@
 const jwt = require("jsonwebtoken");
-const Admin = require("../models/adminUser");
+const Admin = require("../models/adminModel");
+require('dotenv').config()
 
 const auth = async (req, res, next) => {
+  let token
+  let decoded
+  let adminUser
   try {
-    const token = req.header("Authorization").replace("Bearer ", "");
-    const decoded = jwt.verify(token, process.env.DB_JWT);
+    // parse token
+    token = req.header("Authorization").replace("Bearer ", "");
 
-    const adminUser = await Admin.findOne({
+    // verify token -> return object contains userId or error if failed
+    decoded = jwt.verify(token, process.env.DB_JWT);
+
+    // get user from db
+    adminUser = await Admin.findOne({
       _id: decoded._id,
       "tokens.token": token,
     });
@@ -17,11 +25,12 @@ const auth = async (req, res, next) => {
       );
     }
 
+    // pass token and user to the next middleware
     req.token = token;
     req.user = adminUser;
     next();
   } catch (e) {
-    res.status(401).send({ message: "Please Authenticate" });
+    return res.status(401).send({ message: "Please Authenticate, " + String(e.message).toUpperCase() });
   }
 };
 

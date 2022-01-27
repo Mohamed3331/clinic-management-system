@@ -4,10 +4,13 @@ import axios from "axios";
 import Button from "../../components/Button/Button";
 import { useForm } from "react-hook-form";
 import ErrorValidation from "../FormElements/ErrorValidation";
+import { useDispatch } from "react-redux";
+import { fetchPatients } from "../../redux/patientsSlice";
 import "./AddPatient.css";
 
 const AddPatient = (props) => {
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
 
   const { register, handleSubmit, formState } = useForm();
 
@@ -22,10 +25,11 @@ const AddPatient = (props) => {
       });
 
       if (response.data.errors) {
-        setError(response.data.errors["patientDetails.phoneNumber"].message);
+        setError(Object.values(response.data.errors).map((err) => err.message));
       } else if (response.data.message) {
         setError(response.data.message);
       } else if (response.statusText === "Created") {
+        dispatch(fetchPatients());
         props.closeMapHandler();
       }
     } catch (e) {

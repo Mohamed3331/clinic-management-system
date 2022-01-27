@@ -8,7 +8,7 @@ const registeredPatientsSchema = new mongoose.Schema({
     trim: true,
     type: String,
   },
-  createdAt: { type: Date, expires: 43200, default: Date.now }, // delete document after 12 hours
+  createdAt: { type: Date, expires: 60 * 60 * 12, default: Date.now }, // delete document after 12 hours
 });
 
 const RegisteredPatient = mongoose.model(

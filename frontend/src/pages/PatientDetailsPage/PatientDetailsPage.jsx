@@ -10,8 +10,11 @@ import { useForm } from "react-hook-form";
 import "../../components/FormElements/InputHandler.css";
 import FormSection from "../../components/FormElements/FormSection";
 import * as myFormInputs from "../../Utils/FormInputs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./PatientDetailsPage.css";
+import { localStorageHandler } from "../../Utils/localStorage";
+import { loginUser, logout } from "../../redux/authSlice";
+import { fetchPatients } from "../../redux/patientsSlice";
 
 const myReducer = (state, action) => {
   switch (action.type) {
@@ -48,10 +51,14 @@ export default function DetailsSection() {
 
   const [myPatient, setMyPatient] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const { token } = useSelector((state) => state.authToken);
+  const { removeTokenLocalStorage } = localStorageHandler();
+  const dispatchRedux = useDispatch();
 
   let history = useHistory();
   let { id } = useParams();
+
   let _token;
 
   const {
@@ -85,8 +92,11 @@ export default function DetailsSection() {
   };
 
   useEffect(() => {
-    setLoading(true);
+    dispatch(fetchPatients());
+  }, []);
 
+  useEffect(() => {
+    setLoading(true);
     const fetchPatientData = async (id) => {
       try {
         const response = await axios({
@@ -96,12 +106,14 @@ export default function DetailsSection() {
             Authorization: "Bearer " + token,
           },
         });
-        console.log(response);
         reset(response.data.patient);
         setMyPatient(response.data.patient);
+        dispatch(logout());
       } catch (e) {
+        // console.log(e.response.data.message);
+        dispatchRedux(logout());
+        removeTokenLocalStorage();
         history.push("/");
-        console.log(e.response.data.message);
       }
       setLoading(false);
     };
@@ -123,6 +135,7 @@ export default function DetailsSection() {
         },
       });
     } catch (e) {
+      // removeTokenLocalStorage();
       console.log(e);
     }
   };

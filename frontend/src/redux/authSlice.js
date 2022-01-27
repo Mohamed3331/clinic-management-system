@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { localStorageHandler } from '../Utils/localStorage'
 import axios from "axios";
 
 const loginUser = createAsyncThunk("login/auth", async (userCred, thunkAPI) => {
@@ -17,17 +18,15 @@ const loginUser = createAsyncThunk("login/auth", async (userCred, thunkAPI) => {
   }
 });
 
-const token = localStorage.getItem("adminToken") ? localStorage.getItem("adminToken") : ""
-
-const initialState = { token, error: "" }
-
-
-const adminSlice = createSlice({
+const authSlice = createSlice({
   name: "admin",
-  initialState,
-  reducers: {},
+  initialState: {},
+  reducers: {
+    logout: (state) => {
+      state.token = ''
+    },
+  },
   extraReducers: (builder) => {
-
     builder.addCase(loginUser.fulfilled, (state, action) => {
       return (state = {
         token: action.payload.token,
@@ -44,5 +43,20 @@ const adminSlice = createSlice({
   },
 });
 
-export { loginUser };
-export default adminSlice.reducer;
+
+// console.log(authSlice.actions.logout().type === 'admin/logout');
+
+// const authMiddleware = (store) => (next) => (action) => {
+//   console.log(action);
+//   // console.log(authSlice.actions.logout.match(action));
+//   if (authSlice.actions.logout.match(action) || action.type === 'login/auth/rejected') {
+//     console.log('dsfds');
+//     removeTokenLocalStorage()
+//   }
+//   return next(action);
+// };
+
+const { logout } = authSlice.actions
+
+export { loginUser, logout };
+export default authSlice.reducer;

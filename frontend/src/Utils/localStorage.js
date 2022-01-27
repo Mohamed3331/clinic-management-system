@@ -1,4 +1,4 @@
-export const useLocalStorageHook = () => {
+export const localStorageHandler = () => {
   const getTokenLocalStorage = () => {
     const myToken = localStorage.getItem("adminToken")
       ? localStorage.getItem("adminToken")

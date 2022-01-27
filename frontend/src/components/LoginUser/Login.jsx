@@ -3,14 +3,14 @@ import Modal from "../../components/Modal/Modal";
 import Button from "../../components/Button/Button";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../redux/adminSlice";
-import { useLocalStorageHook } from "../../hooks/useLocStorageHook";
+import { loginUser } from "../../redux/authSlice";
+import { localStorageHandler } from "../../Utils/localStorage";
 import ErrorValidation from "../FormElements/ErrorValidation";
 
 const Login = (props) => {
   const [Error, setError] = useState("");
   const { register, handleSubmit, formState } = useForm();
-  const { setTokenLocalStorage } = useLocalStorageHook();
+  const { setTokenLocalStorage } = localStorageHandler();
   const dispatch = useDispatch();
 
   const submit = async (data) => {

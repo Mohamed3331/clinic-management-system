@@ -1,7 +1,7 @@
 const express = require("express");
 const auth = require("../middleware/Auth");
-const Patient = require("../models/patient");
-const RegisteredPatient = require("../models/registeredPatients");
+const Patient = require("../models/patientModel");
+const RegisteredPatient = require("../models/registeredPatientModel");
 const router = new express.Router();
 
 // patients CRUD routes
@@ -35,6 +35,7 @@ router.post("/create/patient", async (req, res) => {
   const { phoneNumber } = req.body.patientDetails;
 
   let existingPatient;
+  let newPatient
   try {
     existingPatient = await Patient.findOne({
       "patientDetails.phoneNumber": phoneNumber,
@@ -47,17 +48,17 @@ router.post("/create/patient", async (req, res) => {
     return res.send({ message: "العيان مسجل بالفعل" });
   }
 
-  const patient = new Patient(req.body);
 
   try {
-    await patient.save();
-    res.status(201).send({ patient });
+    newPatient = new Patient(req.body);
+    await newPatient.save();
+    res.status(201).send({ newPatient });
   } catch (e) {
     res.send(e);
   }
 });
 
-router.patch("/patient/:id", async (req, res) => {
+router.patch("/patient/:id", auth, async (req, res) => {
   let patient;
   try {
     const _id = req.params.id;

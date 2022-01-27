@@ -19,10 +19,9 @@ export default function Patient({
     (state) => state.registeredPatients
   );
 
-  const authRoute = !!token ? _id : "/";
+  const authRoute = _id;
 
   useEffect(() => {
-    console.log(!!token);
     const myPatient = registeredPatients.find((p) => p._id === _id);
     setPatientStatus(!!myPatient);
   }, [registeredPatients, _id]);
