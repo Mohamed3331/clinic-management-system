@@ -4,8 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const notify = () =>
-  toast("🦄 Wow so easy!", {
-    position: "top-right",
+  toast("🦄 You need to Authneticate to perform CRUD operations", {
+    position: "bottom-left",
     autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -13,6 +13,7 @@ const notify = () =>
     draggable: true,
     progress: undefined,
   });
+
 const ToastWarning = () => {
   useEffect(() => {
     notify();

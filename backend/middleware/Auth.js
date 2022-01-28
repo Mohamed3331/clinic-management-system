@@ -30,7 +30,8 @@ const auth = async (req, res, next) => {
     req.user = adminUser;
     next();
   } catch (e) {
-    return res.status(401).send({ message: "Please Authenticate, " + String(e.message).toUpperCase() });
+    console.log(e);
+    res.status(401).send({ message: "Please Authenticate, " + String(e.message).toUpperCase() });
   }
 };
 

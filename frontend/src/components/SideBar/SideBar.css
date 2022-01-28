@@ -1,35 +1,63 @@
 .sidebar_container {
-    background-color: #615C9C;
-    overflow-y: auto;
+  background-color: #615c9c;
+  overflow-y: auto;
 }
 
-.sidebar_wrapper {   
-    padding-top: 2rem;
+.sidebar_wrapper {
+  transition: 0.1s ease-out;
+  margin-top: 6rem;
+  margin: 0 auto;
 }
 
 .num_of_registred_patients_wrapper {
-    padding: 0px 10px 5rem 10px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    color: white;
+  padding: 10px 5px 50px 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
 }
 
 .registeredPatients_text {
-    font-weight: bold;
-    font-size: 30px;
-    justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+  justify-content: center;
 }
 
 .registeredPatients_num-circle {
-    background-color: #FF7777;
-    border-radius: 50%;
-    padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ff7777;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
 }
 
 .registeredPatients_num {
-    font-weight: 700;
-    font-size: 35px;
+  font-weight: 700;
+  font-size: 30px;
+  transform: translateY(-2px);
 }
 
+.sidebar-close {
+  cursor: pointer;
+  position: absolute;
+  transition: 0.1s ease-out;
+  background-color: #615c9c;
+  padding: 0.5rem;
+  border: 0;
+  border-radius: 2px;
+}
 
+.sidebar-close:hover {
+  transform: scale(1.2);
+}
+
+@media only screen and (max-width: 1200px) {
+  .sidebar_container {
+    width: 100%;
+  }
+  .sidebar_wrapper {
+    margin-top: 7rem;
+  }
+}

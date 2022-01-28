@@ -7,15 +7,12 @@ import PatientList from "../../components/PatientsList/PatientsList";
 import { BsPlusCircle } from "react-icons/bs";
 import AddPatient from "../../components/AddPatient/AddPatient";
 import Login from "../../components/LoginUser/Login";
-import { useMediaQuery } from "react-responsive";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import "./HomePage.css";
 import ToastWarning from "../../components/ToastWarning";
 
 const HomePage = (props) => {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1200px)" });
-
   const [showPatientForm, setShowPatientForm] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(false);
   const { token } = useSelector((state) => state.authToken);
@@ -28,16 +25,12 @@ const HomePage = (props) => {
 
   const openLoginForm = () => setShowLoginForm(true);
 
-  const gridStyle = {
-    display: "grid",
-    gridTemplateColumns: `${isTabletOrMobile ? "1fr 1f" : "35vh 1fr"}`,
-    height: "100vh",
-  };
-
   return (
     <>
-      <div style={gridStyle}>
+      {!token && <ToastWarning />}
+      <div className="main_grid_wrapper">
         <SideBar />
+
         <section
           style={{
             backgroundImage: `url(${image1})`,
@@ -71,7 +64,7 @@ const HomePage = (props) => {
               color="#CDFFE7"
               size="circle"
             >
-              اضافة <BsPlusCircle />{" "}
+              اضافة مريض <BsPlusCircle />{" "}
             </Button>
           </div>
 

@@ -1,52 +1,81 @@
 .patientlist_container {
-    margin-top: 4rem;
-    padding: 25px 50px;
-    overflow-y: scroll;
-    height: 65%;
+  margin-top: 4rem;
+  padding: 25px 50px;
+  overflow-y: scroll;
+  height: 65%;
 }
 
 #patients {
-    border-collapse: collapse;
-    width: 100%;
-    font-weight: 600;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  font-weight: 600;
 }
 
-#patients td, #patients th {
-    padding-top: 50px;
-    text-align: center;
+#patients td,
+#patients th {
+  padding: 30px 0px;
+  text-align: center;
 }
 
 #patients td {
-    font-size: 25px;
-    border-bottom: 0.1px solid black;
-    padding-bottom: 15px;
+  font-size: 20px;
+  border-bottom: 0.1px solid black;
+  padding-bottom: 15px;
 }
 
 #patients th {
-    position: relative;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    color: rgb(0, 0, 0);
-    font-size: 28px;
-    border-bottom: 2px solid #615C9C;
+  position: relative;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  color: rgb(0, 0, 0);
+  font-size: 22px;
+  border-bottom: 2px solid #615c9c;
 }
 
-#patients th::after  {
-    content: "";
-    background: rgb(255, 255, 255);
-    border-radius: 50%;
-    border: #FF0000 2px solid;
-    position: absolute;
-    bottom: 0%;
-    top: 17px;
-    height: 2px;
-    width: 2px;
-    padding: 10px;
-    transform: translateX(10px);
+#patients th::after {
+  content: "";
+  background: rgb(255, 255, 255);
+  border-radius: 50%;
+  border: #ff0000 2px solid;
+  position: absolute;
+  bottom: 0%;
+  top: 17px;
+  height: 2px;
+  width: 2px;
+  padding: 10px;
+  transform: translateX(10px);
 }
 
 #patients th:nth-child(1)::after {
-    background: transparent;
-    border-radius: 50%;
-    border: transparent 2px solid;
+  background: transparent;
+  border-radius: 50%;
+  border: transparent 2px solid;
+}
+
+@media only screen and (max-width: 1200px) {
+  .patientlist_container {
+    padding: 15px 20px;
+    overflow-y: scroll;
+    height: 65%;
+  }
+
+  #patients th {
+    padding-top: 5px;
+    font-size: 20px;
+  }
+
+  #patients th::after {
+    top: 12px;
+    padding: 7px;
+  }
+
+  #patients td {
+    font-size: 20px;
+    padding-bottom: 7px;
+  }
+
+  .patientlist_container {
+    padding: 25px 0px;
+  }
 }

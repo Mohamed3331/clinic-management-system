@@ -110,7 +110,7 @@ export default function DetailsSection() {
         setMyPatient(response.data.patient);
         dispatch(logout());
       } catch (e) {
-        // console.log(e.response.data.message);
+        console.log(e.response.data.message);
         dispatchRedux(logout());
         removeTokenLocalStorage();
         history.push("/");

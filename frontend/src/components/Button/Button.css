@@ -1,51 +1,62 @@
 .button {
-    font: inherit;
-    font-weight: 600;
-    padding: 0.8rem 2rem;
-    border-radius: 10px;
-    background: #ff0055;
-    color: white;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    justify-content: center;
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .button:focus {
-    outline: none;
-  }
-  
-  .button:hover,
-  .button:active {
-    background: #ff4382;
-    border-color: #ff4382;
-  }
-  
+  font: inherit;
+  font-weight: 600;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid rgb(85, 85, 85);
+  transition: 0.2s ease-out;
+  background-color: rgb(191, 181, 255);
+}
 
-  .button:disabled,
-  .button:hover:disabled,
-  .button:active:disabled {
-    background: #ccc;
-    color: #979797;
-    border-color: rgb(255, 255, 255);
-    cursor: not-allowed;
-  }
-  
-  .button--small {
-    font-size: 0.8rem;
-  }
-  
+.button:focus {
+  outline: none;
+}
+
+.button:hover,
+.button:active {
+  transform: scale(1.1);
+}
+
+.button--small {
+  font-size: 0.8rem;
+}
+
+.button--big {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.button--circle {
+  font-size: 0.9rem;
+  border-radius: 30px;
+  color: black;
+  padding: 1rem 1.5rem;
+}
+
+@media only screen and (max-width: 1400px) {
   .button--big {
-    font-size: 1.7rem;
-    border: 5px solid #615C9C;
-    font-weight: 700;
+    font-size: 1.2rem;
   }
 
   .button--circle {
-    font-size: 1rem;
+    font-size: 0.8rem;
     border-radius: 50%;
     color: black;
-    padding: 1rem 1.5rem;
+    padding: 1rem;
   }
+}
+
+@media only screen and (max-width: 1200px) {
+  .button--circle {
+    font-size: 0.6rem;
+    border-radius: 50%;
+    color: black;
+    padding: 1rem;
+  }
+}

@@ -1,26 +1,31 @@
 .header-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    margin-top: 5rem;
-    position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 5rem;
+  position: relative;
 }
 
 .homepage_container {
-    overflow: hidden;
-    max-height: 100vh;
+  overflow: hidden;
+  max-height: 100vh;
 }
 
 .button-wrapper {
-    position: absolute;
-    bottom: 50px;
-    margin-left: 20px;
-    color: black;
+  position: absolute;
+  bottom: 30px;
+  margin-left: 20px;
+  color: black;
 }
 
-.fdsfds {
-    display: grid;
-    grid-template-columns: 35vh 1fr;
-    height: 100vh;
+.main_grid_wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: 100vh;
 }
+
+/* @media only screen and (max-width: 1400px) {
+  .main_grid_wrapper {
+  }
+} */

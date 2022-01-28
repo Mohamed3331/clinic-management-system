@@ -14,7 +14,6 @@ export default function Patient({
   const [myPatientStatus, setPatientStatus] = useState(false);
   const patientDateCreated = new Date(createdAt);
 
-  const { token } = useSelector((state) => state.authToken);
   const { registeredPatients } = useSelector(
     (state) => state.registeredPatients
   );
