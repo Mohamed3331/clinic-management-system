@@ -8,15 +8,7 @@
     "install-dependencies": "cd backend && npm install && cd ../frontend && npm install",
     "build": "cd frontend && npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Mohamed3331/clinic-management-system.git"
-  },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Mohamed3331/clinic-management-system/issues"
-  },
-  "homepage": "https://github.com/Mohamed3331/clinic-management-system#readme"
+  "license": "ISC"
 }

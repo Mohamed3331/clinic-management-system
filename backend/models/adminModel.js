@@ -31,7 +31,7 @@ const adminSchema = new mongoose.Schema({
   ],
 });
 
-// methods to be called on the instance / object of a class/model
+// methods to be called on the instance / object 
 adminSchema.methods.generateAuthToken = async function () {
   const admin = this;
   const token = jwt.sign({ _id: admin._id.toString() }, process.env.DB_JWT, {

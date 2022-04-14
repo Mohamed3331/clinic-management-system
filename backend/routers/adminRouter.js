@@ -23,27 +23,26 @@ router.post("/admin/login", async (req, res) => {
       req.body.password
     );
 
-    if (!admin) res.status(400).send({ message: "Invalid login" });
-
     const token = await admin.generateAuthToken();
 
     if (!token) res.status(401).send({ message: "Invalid Token Creation" });
     res.status(200).send({ token });
-  } catch (error) {
+  } catch (e) {
+    console.log(e)
     res.status(400).send({ message: "Invalid login" });
   }
 });
 
-// router.post("/admin/create", async (req, res) => {
-//   const admin = new Admin(req.body);
+router.post("/admin/create", async (req, res) => {
+  const admin = new Admin(req.body);
 
-//   try {
-//     await admin.save();
-//     const token = await admin.generateAuthToken();
-//     res.status(201).send({ admin, token });
-//   } catch (e) {
-//     res.send(e);
-//   }
-// });
+  try {
+    await admin.save();
+    const token = await admin.generateAuthToken();
+    res.status(201).send({ admin, token });
+  } catch (e) {
+    res.send(e);
+  }
+});
 
 module.exports = router;

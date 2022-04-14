@@ -39,7 +39,6 @@ export default function PatientsList() {
     return (
       <>
         <LoadingSpinner />
-        <h1>No Patients to Display</h1>
       </>
     );
   }

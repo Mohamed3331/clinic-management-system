@@ -5,7 +5,7 @@ const fetchPatients = createAsyncThunk(
   "patients/patientsListFetch",
   async (id, thunkAPI) => {
     try {
-      const response = await axios.get("http://localhost:5000/patients");
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/patients`);
       if (response.data.message) {
         return thunkAPI.rejectWithValue(response.data.message);
       }

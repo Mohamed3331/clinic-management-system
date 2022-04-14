@@ -43,6 +43,7 @@ const Login = (props) => {
             className={`${formState.errors.email && "form-control--invalid"}`}
             type="text"
             {...register("email", { required: true })}
+            defaultValue="admin@gmail.com"
           />
 
           <label htmlFor="patientAge"> كلمه السر </label>
@@ -52,6 +53,7 @@ const Login = (props) => {
             }`}
             type="password"
             {...register("password", { required: true })}
+            defaultValue="admin"
           />
 
           <Button type="submit" size="small">

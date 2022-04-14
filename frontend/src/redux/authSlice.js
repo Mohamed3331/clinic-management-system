@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { localStorageHandler } from '../Utils/localStorage'
 import axios from "axios";
 
 const loginUser = createAsyncThunk("login/auth", async (userCred, thunkAPI) => {
   try {
     const response = await axios({
       method: "post",
-      url: `http://localhost:5000/admin/login`,
+      url: `${process.env.REACT_APP_BACKEND_URL}/admin/login`,
       data: userCred,
     });
     if (response.data.message) {

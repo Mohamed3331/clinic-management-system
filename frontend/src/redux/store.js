@@ -3,11 +3,7 @@ import patientsListReducer from "./patientsSlice";
 import registeredPatientsListReducer from "./registeredPatientsSlice";
 import filteredPatientsReducer from "./filteredPatientsSlice";
 import authReducer from "./authSlice";
-// import { authMiddleware } from './authSlice'
 
-// const rootReducer = {
-//   patients: patientListReducer,
-// }
 
 const token = localStorage.getItem("adminToken") ? localStorage.getItem("adminToken") : ""
 
@@ -23,4 +19,3 @@ export const store = configureStore({
   preloadedState: { authToken: { token, error: "" } }
 });
 
-// console.log(store.getState());

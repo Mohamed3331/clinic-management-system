@@ -91,7 +91,6 @@ const AddPatient = (props) => {
 
           <label htmlFor="medicalInsurance">التامين</label>
           <label htmlFor="medicalInsurance">
-            {" "}
             نعم
             <input
               type="radio"

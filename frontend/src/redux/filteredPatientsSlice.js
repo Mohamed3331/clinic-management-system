@@ -4,7 +4,7 @@ import axios from "axios";
 const filterPatients = createAsyncThunk("filteredPatients/patients", async (searchQuery, thunkAPI) => {
   try {
     const response = await axios.get(
-      `http://localhost:5000/search?term=${searchQuery}`
+      `${process.env.REACT_APP_BACKEND_URL}/search?term=${searchQuery}`
     );
     if (response.data.message) {
       return thunkAPI.rejectWithValue(response.data.message);

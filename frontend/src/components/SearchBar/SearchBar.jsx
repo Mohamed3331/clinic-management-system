@@ -14,7 +14,12 @@ export default function SearchBar() {
 
   return (
     <section className="searchbar_container">
-      <input onKeyDown={handleKeyDown} className="searchbar" type="text" />
+      <input
+        onKeyDown={handleKeyDown}
+        className="searchbar"
+        type="text"
+        placeholder="Search & Enter"
+      />
       <div className="searchbar_text">اسم المريض</div>
     </section>
   );

@@ -13,7 +13,7 @@ import * as myFormInputs from "../../Utils/FormInputs";
 import { useDispatch, useSelector } from "react-redux";
 import "./PatientDetailsPage.css";
 import { localStorageHandler } from "../../Utils/localStorage";
-import { loginUser, logout } from "../../redux/authSlice";
+import { logout } from "../../redux/authSlice";
 import { fetchPatients } from "../../redux/patientsSlice";
 
 const myReducer = (state, action) => {
@@ -41,6 +41,14 @@ const myReducer = (state, action) => {
 };
 
 export default function DetailsSection() {
+  // selectors
+  const { token } = useSelector((state) => state.authToken);
+  const { removeTokenLocalStorage } = localStorageHandler();
+
+  // actions
+  const dispatchRedux = useDispatch();
+
+  // hooks
   const [MyState, dispatch] = useReducer(myReducer, {
     diseases: [],
     drugs: [],
@@ -52,10 +60,7 @@ export default function DetailsSection() {
   const [myPatient, setMyPatient] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { token } = useSelector((state) => state.authToken);
-  const { removeTokenLocalStorage } = localStorageHandler();
-  const dispatchRedux = useDispatch();
-
+  // utils
   let history = useHistory();
   let { id } = useParams();
 
@@ -110,7 +115,6 @@ export default function DetailsSection() {
         setMyPatient(response.data.patient);
         dispatch(logout());
       } catch (e) {
-        console.log(e.response.data.message);
         dispatchRedux(logout());
         removeTokenLocalStorage();
         history.push("/");
@@ -119,8 +123,8 @@ export default function DetailsSection() {
     };
 
     fetchPatientData(id);
-  }, [id, reset, token]);
-
+  }, [id, reset, token, dispatchRedux]);
+  console.log("fds");
   const onSubmit = async (data) => {
     delete MyState.myInput;
     delete data.createdAt;

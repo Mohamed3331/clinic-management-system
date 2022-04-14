@@ -1,11 +1,12 @@
-// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+// ============================================================================================
+
 //                   NOTE: LEGACY CODE
 // This file contains legacy code of react context, I updated it by
 // USing Redux Toolkit as the main state management for this App.
 // I only kept this file and the ./PatientContext.jsx file
 // Just for Illustration.
 
-// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+// ============================================================================================
 
 // import React, {useEffect, useReducer, useCallback} from 'react'
 // import axios from 'axios';

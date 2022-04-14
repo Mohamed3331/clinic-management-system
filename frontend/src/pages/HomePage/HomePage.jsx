@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import image1 from "../../Assets/image1.png";
 import Button from "../../components/Button/Button";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -13,9 +13,14 @@ import "./HomePage.css";
 import ToastWarning from "../../components/ToastWarning";
 
 const HomePage = (props) => {
+  // hooks
   const [showPatientForm, setShowPatientForm] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(false);
+
+  // selectors
   const { token } = useSelector((state) => state.authToken);
+
+  // handlers
 
   const closeMapHandler = () => setShowPatientForm(false);
 
